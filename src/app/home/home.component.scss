@@ -1,0 +1,15 @@
+.main-container {
+    height: calc(100vh - 82px - 2em);
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+
+    app-sidebar {
+        flex: 1;
+        margin: 0 1em;
+    }
+    app-feuillets {
+        flex: 4;
+        margin: 0 1em;
+    }
+}
