@@ -15,11 +15,14 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Oswald';
+    color: $primary-black;
 }
 
 h1 {
     font-weight: 400;
-    color: $primary-black;
+}
+h2 {
+    font-weight: 400;
 }
 
 .em-block {
@@ -31,4 +34,37 @@ h1 {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.em-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 200ms ease-in-out;
+    color: black;
+    
+    & > img {
+        width: 20px;
+        height: 20px;
+        margin-right: .7em;
+    }
+
+    &:hover {
+        background: rgba(168, 168, 168, 0.2);
+    }
+
+    &.active {
+        background: rgba(0, 42, 38, 0.62);
+        color: white;
+        font-weight: bold;
+
+        & > img {
+            filter: invert(1);
+        }
+    }
 }

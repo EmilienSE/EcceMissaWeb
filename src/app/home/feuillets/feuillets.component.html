@@ -1,1 +1,22 @@
-<div class="feuillets em-block"></div>
+<div class="feuillets em-block">
+    <div class="feuillets-container">
+        <div class="feuillets-title">
+            <h2>Mes derniers feuillets</h2>
+            <div class="add-button em-btn">
+                <img src="assets/img/plus.svg" alt="Ajouter un feuillet">
+            </div>
+        </div>
+        <div class="feuillets-list">
+            <div class="em-btn feuillet-btn" *ngFor="let feuillet of feuillets">
+                <span class="feuillet-txt">
+                    Feuillet du {{moment(feuillet.date).format('dddd DD/MM/YYYY')}} - {{feuillet.paroisse.nom}}
+                </span>
+                <div class="feuillet-indicators">
+                    <img src="assets/img/oeil.svg" alt="">
+                    <div class="indicator-views">{{feuillet.vues}}</div>
+                    <img src="assets/img/options.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
