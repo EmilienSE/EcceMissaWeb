@@ -10,11 +10,12 @@ import { ParoisseService } from '../../services/paroisse/paroisse.service';
 import { Paroisse } from '../../models/paroisse';
 import { Eglise } from '../../models/eglise';
 import { EgliseService } from '../../services/eglise/eglise.service';
+import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 
 @Component({
   selector: 'app-add-feuillet.modal',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, EmLoaderComponent],
   templateUrl: './add-feuillet.modal.component.html',
   styleUrl: './add-feuillet.modal.component.scss'
 })
@@ -33,18 +34,20 @@ export class AddFeuilletModalComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, 
-    private modalService: ModalService, 
+    public modalService: ModalService, 
     private feuilletService: FeuilletService,
     private paroisseService: ParoisseService,
     private egliseService: EgliseService
   ){}
 
   ngOnInit(): void {
+    this.isLoading = true;
       this.paroisseService.getParoisses().subscribe((paroisses: Paroisse[]) => {
         this.paroisses = paroisses;
-      });
-      this.egliseService.getEglises().subscribe((eglises: Eglise[]) => {
-        this.eglises = eglises;
+        this.egliseService.getEglises().subscribe((eglises: Eglise[]) => {
+          this.eglises = eglises;
+          this.isLoading = false;
+        });
       });
   }
 

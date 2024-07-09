@@ -6,25 +6,29 @@ import { AddFeuilletModalComponent } from '../../modal/add-feuillet.modal/add-fe
 import { FeuilletService } from '../../services/feuillet/feuillet.service';
 import { tap } from 'rxjs';
 import { Feuillet } from '../../models/feuillet';
+import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 @Component({
   selector: 'app-feuillets',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, EmLoaderComponent],
   templateUrl: './feuillets.component.html',
   styleUrl: './feuillets.component.scss'
 })
 export class FeuilletsComponent implements OnInit {
   moment = moment;
   feuillets: Feuillet[];
+  isLoading: boolean = false;
 
   constructor(
     private modalService: ModalService,
     private feuilletService: FeuilletService){ }
 
   ngOnInit(): void {
-      this.feuilletService.getFeuillets().subscribe((feuillets: Feuillet[]) => {
-        this.feuillets = feuillets;
-      });
+    this.isLoading = true;
+    this.feuilletService.getFeuillets().subscribe((feuillets: Feuillet[]) => {
+      this.feuillets = feuillets;
+      this.isLoading = false;
+    });
   }
 
   openAddModal() {
