@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import moment from 'moment';
 import { ModalService } from '../../modal.service';
 import { AddFeuilletModalComponent } from '../../modal/add-feuillet.modal/add-feuillet.modal.component';
+import { FeuilletService } from '../../services/feuillet/feuillet.service';
+import { tap } from 'rxjs';
+import { Feuillet } from '../../models/feuillet';
 @Component({
   selector: 'app-feuillets',
   standalone: true,
@@ -10,52 +13,19 @@ import { AddFeuilletModalComponent } from '../../modal/add-feuillet.modal/add-fe
   templateUrl: './feuillets.component.html',
   styleUrl: './feuillets.component.scss'
 })
-export class FeuilletsComponent {
-  moment: any = moment;
-  feuillets: any[] = [
-    {
-      id: 0,
-      date: new Date('04/21/2024'),
-      paroisse: {
-        nom: 'Cathédrale Saint-Maurice d\'Angers'
-      },
-      vues: 345
-    },
-    {
-      id: 1,
-      date: new Date('04/14/2024'),
-      paroisse: {
-        nom: 'Cathédrale Saint-Maurice d\'Angers'
-      },
-      vues: 588
-    },
-    {
-      id: 2,
-      date: new Date('04/07/2024'),
-      paroisse: {
-        nom: 'Cathédrale Saint-Maurice d\'Angers'
-      },
-      vues: 756
-    },
-    {
-      id: 3,
-      date: new Date('03/31/2024'),
-      paroisse: {
-        nom: 'Cathédrale Saint-Maurice d\'Angers'
-      },
-      vues: 863
-    },
-    {
-      id: 4,
-      date: new Date('03/24/2024'),
-      paroisse: {
-        nom: 'Cathédrale Saint-Maurice d\'Angers'
-      },
-      vues: 445
-    },
-  ]
+export class FeuilletsComponent implements OnInit {
+  moment = moment;
+  feuillets: Feuillet[];
 
-  constructor(private modalService: ModalService){ }
+  constructor(
+    private modalService: ModalService,
+    private feuilletService: FeuilletService){ }
+
+  ngOnInit(): void {
+      this.feuilletService.getFeuillets().subscribe((feuillets: Feuillet[]) => {
+        this.feuillets = feuillets;
+      });
+  }
 
   openAddModal() {
     this.modalService.open(AddFeuilletModalComponent, {
@@ -73,5 +43,9 @@ export class FeuilletsComponent {
         width: '40rem',
       },
     });
+  }
+
+  openFeuillet(feuilletId: number): void {
+    window.open(this.feuilletService.showFeuilletPdf(feuilletId), '_blank')
   }
 }

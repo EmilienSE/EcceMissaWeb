@@ -4,11 +4,14 @@ import { FeuilletsComponent } from './home/feuillets/feuillets.component';
 import { DioceseComponent } from './home/diocese/diocese.component';
 import { ParoisseComponent } from './home/paroisse/paroisse.component';
 import { CompteComponent } from './home/compte/compte.component';
+import { ConnexionComponent } from './connexion/connexion.component';
+import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
     { 
-        path: 'accueil', 
+        path: '', 
         component: HomeComponent,
+        canActivate: [authGuard],
         children: [
             {
                 path: 'feuillets',
@@ -28,5 +31,5 @@ export const routes: Routes = [
             },
         ] 
     },
-    { path: 'connexion', component: HomeComponent }
+    { path: 'connexion', component: ConnexionComponent }
 ];

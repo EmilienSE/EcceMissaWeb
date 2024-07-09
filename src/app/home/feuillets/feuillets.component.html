@@ -7,13 +7,13 @@
             </div>
         </div>
         <div class="feuillets-list">
-            <div class="em-btn feuillet-btn" *ngFor="let feuillet of feuillets">
+            <div class="em-btn feuillet-btn" *ngFor="let feuillet of feuillets" (click)="openFeuillet(feuillet.id)">
                 <span class="feuillet-txt">
-                    Feuillet du {{moment(feuillet.date).format('dddd DD/MM/YYYY')}} - {{feuillet.paroisse.nom}}
+                    Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.egliseName}}
                 </span>
                 <div class="feuillet-indicators">
                     <img src="assets/img/oeil.svg" alt="">
-                    <div class="indicator-views">{{feuillet.vues}}</div>
+                    <div class="indicator-views">{{feuillet.viewCount}}</div>
                     <img src="assets/img/options.svg" alt="">
                 </div>
             </div>

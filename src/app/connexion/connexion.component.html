@@ -1,0 +1,20 @@
+<div class="connexion-container">
+    <div class="em-block connexion-block">
+        <div class="logo-container">
+            <img src="assets/img/logo.png" alt="Logo Ecce Missa">
+            <h1>ECCE MISSA</h1>
+        </div>
+        <h2>Connexion</h2>
+        <form [formGroup]="connexionForm">
+            <div class="form-group">
+                <label for="username">Adresse e-mail :</label>
+                <input type="text" name="username" id="username" class="em-input" [formControlName]="'username'">
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password" class="em-input" [formControlName]="'password'">
+            </div>
+            <button class="em-btn success" [disabled]="!connexionForm.valid" (click)="submitForm().subscribe()"><span>Je me connecte</span></button>
+        </form>
+    </div>
+</div>
