@@ -1,4 +1,4 @@
-import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
+import { HttpRequest, HttpEvent, HttpErrorResponse, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
@@ -17,7 +17,9 @@ export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: H
       if (error instanceof HttpErrorResponse && error.status === 401) {
         return handle401Error(req, next, authService);
       } else {
-        return throwError(() => new Error());
+        return throwError(() => {
+          return new Error()
+        });
       }
     })
   );
@@ -31,10 +33,10 @@ function addToken(request: HttpRequest<any>, token: string) {
   });
 }
 
-function handle401Error(request: HttpRequest<any>, next: HttpHandlerFn, authService: AuthService): Observable<HttpEvent<any>> {
-  const refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  let isRefreshing = false;
+let isRefreshing = false;
+const refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+function handle401Error(request: HttpRequest<any>, next: HttpHandlerFn, authService: AuthService): Observable<HttpEvent<any>> {
   if (!isRefreshing) {
     isRefreshing = true;
     refreshTokenSubject.next(null);

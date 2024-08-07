@@ -5,11 +5,13 @@ import { ConnexionData } from '../models/utilisateur';
 import { AuthService } from '../services/auth/auth.service';
 import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { EmLoaderComponent } from '../modules/em-loader/em-loader.component';
+import { Size } from '../enums/size.enum';
 
 @Component({
   selector: 'app-connexion',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, EmLoaderComponent],
   templateUrl: './connexion.component.html',
   styleUrl: './connexion.component.scss'
 })
@@ -19,11 +21,11 @@ export class ConnexionComponent {
     password: [null, Validators.required]
   });
   isLoading: boolean;
+  public Size = Size;
   
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router){}
+    private authService: AuthService){}
 
   submitForm(): Observable<void>{
     return of(undefined).pipe(

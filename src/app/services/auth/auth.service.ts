@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment';
 import { ModalService } from '../../modal.service';
 import { ConnexionData } from '../../models/utilisateur';
@@ -32,7 +32,6 @@ export class AuthService {
   }
 
   logout() {
-    this.modalService.close();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     this.router.navigate(['/connexion']);
@@ -49,6 +48,10 @@ export class AuthService {
         if (response.token) {
           localStorage.setItem('access_token', response.token);
         }
+      }),
+      catchError((err) => {
+        this.logout();
+        return of(undefined);
       })
     );
   }

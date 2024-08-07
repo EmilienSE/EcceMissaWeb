@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Size } from '../../enums/size.enum';
 
 @Component({
   selector: 'app-em-loader',
@@ -8,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrl: './em-loader.component.scss'
 })
 export class EmLoaderComponent {
-
+  @Input() size: Size = Size.Large;
+  public Size = Size;
 }

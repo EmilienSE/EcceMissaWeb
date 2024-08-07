@@ -14,7 +14,12 @@
                 <label for="password">Mot de passe :</label>
                 <input type="password" name="password" id="password" class="em-input" [formControlName]="'password'">
             </div>
-            <button class="em-btn success" [disabled]="!connexionForm.valid" (click)="submitForm().subscribe()"><span>Je me connecte</span></button>
+            <button class="em-btn success" [disabled]="!connexionForm.valid" (click)="submitForm().subscribe()">
+                @if (isLoading){
+                        <app-em-loader [size]="Size.Small"></app-em-loader>
+                }
+                <span>Je me connecte</span>
+            </button>
         </form>
     </div>
 </div>

@@ -10,54 +10,29 @@ export class ModalService {
   newModalComponent!: ComponentRef<ModalComponent>;
   // Optional content passed at the creation : animation, size, ... 
   options!: Options | undefined;
+  data!: any;
 
   constructor(
     private appRef: ApplicationRef,
     private injector: EnvironmentInjector
   ) {}
 
-  // To get clean function call signatures, I will use typescript function overloading
-  // Signature of the first approach  
-  open(
-    vcrOrComponent: ViewContainerRef,
-    content: TemplateRef<Element>,
-    options?: Options
-  ): void;
-
   // Signature of the second approach
-  open<C>(vcrOrComponent: Type<C>, options?: Options): void;
+  open<C>(vcrOrComponent: Type<C>, options?: Options, data?: any): void;
 
   // Function implementation
   open<C>(
-    vcrOrComponent: ViewContainerRef | Type<C>,
-    param2?: TemplateRef<Element> | Options,
-    options?: Options
+    vcrOrComponent: Type<C>,
+    options?: Options,
+    data?: any
   ) {
-    if (vcrOrComponent instanceof ViewContainerRef) {
-      // For the first approach, we know that the second param will be of type TemplateRef, so we have to cast it  
-      this.openWithTemplate(vcrOrComponent, param2 as TemplateRef<Element>);
-      this.options = options;
-    } else {
-      this.openWithComponent(vcrOrComponent);
-      // Same story here : for the second approach, the second param will be of type Options or undefined, since optional 
-      this.options = param2 as Options | undefined;
-    }
+    // Pour la seconde approche
+    this.openWithComponent(vcrOrComponent, options, data);
+    this.options = options as Options | undefined;
+    this.data = data;
   }
 
-  private openWithTemplate(vcr: ViewContainerRef, content: TemplateRef<Element>) {
-    // We first start to clear previous views
-    vcr.clear();
-    // We create a view with the template content 
-    const innerContent = vcr.createEmbeddedView(content);
-
-    // We create the modal component, and project the template content in the ng-content of the modal component 
-    this.newModalComponent = vcr.createComponent(ModalComponent, {
-      environmentInjector: this.injector,
-      projectableNodes: [innerContent.rootNodes],
-    });
-  }
-
-  private openWithComponent(component: Type<unknown>) {
+  private openWithComponent(component: Type<unknown>, options?: Options, data?: any) {
     // create the desired component, the content of the modal box
     const newComponent = createComponent(component, {
       environmentInjector: this.injector,
@@ -69,6 +44,8 @@ export class ModalService {
     });
 
     document.body.appendChild(this.newModalComponent.location.nativeElement);
+
+    this.newModalComponent.instance.data = data;
 
     // Attach views to the changeDetection cycle
     this.appRef.attachView(newComponent.hostView);

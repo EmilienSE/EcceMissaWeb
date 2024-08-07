@@ -12,6 +12,7 @@ body {
     background-image: url('assets/img/bg.jpg');
     background-size: cover;
     background-position: bottom;
+    background-attachment: fixed;
     padding: 0;
     margin: 0;
     min-height: 100vh;
@@ -31,9 +32,7 @@ h2 {
 }
 
 .em-block {
-    height: 100%;
     width: 100%;
-
     background: rgba(255, 255, 255, 0.4);
     border-radius: 30px;
     backdrop-filter: blur(10px);
@@ -51,6 +50,7 @@ h2 {
     border-radius: 30px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
     border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     display: flex;
@@ -80,6 +80,11 @@ h2 {
 
     &[disabled]{
         pointer-events: none;
+        opacity: .7;
+    }
+
+    app-em-loader {
+        margin-right: 15px;
     }
 }
 
@@ -129,15 +134,39 @@ h2 {
         border-radius: 40px;
         border: none;
         background-color: white;
+        font-size: .8em;
     }      
 }
 
 select.em-input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    cursor: pointer;
 
     option {
         font-size: 1.2em;
     }
 } 
+
+.em-options {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #fff;
+    padding: 10px;
+    z-index: 9999;
+
+    &.visible {
+        display: block;
+    }
+    
+    &-item {
+        padding: 5px 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+    }
+}

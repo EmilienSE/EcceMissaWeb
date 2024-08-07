@@ -14,7 +14,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             {
-                path: 'feuillets',
+                path: '',
                 component: FeuilletsComponent
             },
             {

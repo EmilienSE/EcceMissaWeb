@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, ViewEncapsulation } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, HostListener, Input, ViewChild, ViewEncapsulation } from "@angular/core";
 import { Observable, fromEvent, zip } from "rxjs";
 import { Options } from "./modal-options";
 import { ModalService } from "../modal.service";
@@ -20,6 +20,7 @@ export class ModalComponent implements AfterViewInit {
   overlayAnimationEnd!: Observable<Event>;
   modalLeaveTiming!: number;
   overlayLeaveTiming!: number;
+  @Input() data: any; // Propriété pour recevoir des données
 
   constructor(
     private modalService: ModalService,

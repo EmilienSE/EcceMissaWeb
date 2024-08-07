@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h2>Supprimer un feuillet</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    <p>Êtes vous sûr de vouloir supprimer le feuillet ?</p>
+    <div class="modal-footer">
+        <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+        <button class="em-btn success" (click)="submitForm().subscribe()"><span>Supprimer</span></button>
+    </div>
+}
+
