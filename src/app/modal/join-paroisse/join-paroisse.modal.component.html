@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h2>Rejoindre une paroisse</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    <form class="modal-form" [formGroup]="joinParoisseForm">
+        <div class="form-group">
+            <label for="codeUnique">Code Unique de la paroisse :</label>
+            <input type="text" name="codeUnique" id="codeUnique" class="em-input" [formControlName]="'codeUnique'"/>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+        <button class="em-btn success" [disabled]="!joinParoisseForm.valid" (click)="submitForm().subscribe()"><span>Rejoindre</span></button>
+    </div>
+}

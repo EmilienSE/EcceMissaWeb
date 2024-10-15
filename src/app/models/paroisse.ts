@@ -11,10 +11,16 @@ export interface Paroisse {
     diocese?: Diocese;
     responsables: Utilisateur[];
     feuillets: Feuillet[];
+    paiement_a_jour: boolean;
+    codeUnique: string;
 }
 
 export interface ParoisseData {
     nom: string;
     gps: string;
     diocese_id: string;
+}
+
+export interface JoinParoisseData {
+    codeUnique: string;
 }

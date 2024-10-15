@@ -36,7 +36,7 @@ export class EgliseService {
    * @returns Eglise modifiée
    */
   updateEglise(id: number, egliseData: EgliseData): Observable<Eglise> {
-    return this.http.put<Eglise>(`${this.apiUrl}/${id}`, egliseData);
+    return this.http.post<Eglise>(`${this.apiUrl}/${id}`, egliseData);
   }
 
   /**

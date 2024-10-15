@@ -45,6 +45,9 @@ h2 {
     &.success {
         background-color: $success;
     }
+    &.danger {
+        background-color: $danger;
+    }
     
     background: rgba(255, 255, 255, 0.1);
     border-radius: 30px;
@@ -168,5 +171,27 @@ select.em-input {
         &:hover {
             background-color: #f0f0f0;
         }
+    }
+}
+
+.action-btns {
+    display: flex;
+    flex-direction: row;
+
+    .em-btn {
+        margin-left: 1em;
+    }
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+
+    &-success {
+        background-color: $success;
+    }
+    &-danger {
+        background-color: $danger;
     }
 }

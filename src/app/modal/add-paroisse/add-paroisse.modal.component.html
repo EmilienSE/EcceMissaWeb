@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h2>Ajouter une paroisse</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    @if(!paymentLink){
+        <h3>Comment fonctionne l'abonnement ?</h3>
+        <p>Pour vous abonner à Ecce Missa pour <strong>120€ par an</strong>, vous pouvez choisir entre deux options de paiement :</p>
+        <ul>
+            <li><strong>Carte Bancaire (CB)</strong> : Le paiement par carte bancaire permet une activation immédiate de votre espace personnel et le téléchargement des feuillets.</li>
+            <li><strong>Prélèvement SEPA</strong> : Ce mode nécessite une confirmation de votre banque. L'activation de votre espace personnel et le téléchargement des feuillets seront possibles dès que la banque aura validé le prélèvement.</li>
+        </ul>
+        <p>Pour toute question, n'hésitez pas à nous contacter.</p>
+        <form class="modal-form" [formGroup]="addParoisseForm">
+            <div class="form-group">
+                <label for="nom">Nom de la paroisse :</label>
+                <input type="text" name="nom" id="nom" class="em-input" [formControlName]="'nom'">
+            </div>
+            <div class="form-group">
+                <label for="diocese">Diocèse :</label>
+                <select name="diocese" id="diocese" class="em-input" [formControlName]="'diocese_id'">
+                    <option *ngFor="let diocese of dioceses" [value]="diocese.id">{{diocese.nom}}</option>
+                </select>
+            </div>
+        </form>
+        <div class="modal-footer">
+            @if(paying()) {
+                <app-em-loader></app-em-loader>
+            } @else {
+                <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+                <button class="em-btn success" [disabled]="!addParoisseForm.valid" (click)="submitFormParoisse().subscribe()"><span>Procéder au paiement de 120€</span></button>
+            }
+        </div>
+    }
+}
+

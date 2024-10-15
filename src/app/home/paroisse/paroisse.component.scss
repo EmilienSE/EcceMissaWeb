@@ -1,0 +1,74 @@
+.paroisse {
+    .em-btn {
+        padding: .5em;
+        display: inline;
+    }
+
+    &-container {
+        padding: 0 1.5em;
+        text-align: center;
+    }
+
+    &-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        & .add-button {
+            height: 40px;
+            width: 40px;
+
+            & > img {
+                margin: 0 auto;
+            }
+        } 
+    }
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        text-align: center;
+        position: relative;
+
+        .paroisse-btn {
+            margin-bottom: .5em;
+            padding: 1em;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: relative;
+
+            .paroisse-indicators {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                & > img {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: .5em;
+                    transition: all 200ms ease-in-out;
+
+                    &:hover {
+                        filter: invert(.6);
+                    }
+                    &.danger:hover {
+                        filter: invert(21%) sepia(100%) saturate(7414%) hue-rotate(359deg) brightness(94%) contrast(117%);
+                    }
+                }
+
+                .indicator-views {
+                    margin-right: 1.5em;
+                }
+
+                
+            }
+        }
+    }
+    
+    &.em-block {
+        min-height: 100%;
+    }
+}

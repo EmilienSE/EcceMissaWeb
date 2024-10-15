@@ -30,7 +30,6 @@
     </form>
     <div class="modal-footer">
         <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
-        <button class="em-btn success" [disabled]="!editFeuilletForm.valid" (click)="submitForm().subscribe()"><span>Ajouter</span></button>
+        <button class="em-btn success" [disabled]="!editFeuilletForm.valid" (click)="submitForm().subscribe()"><span>Enregistrer</span></button>
     </div>
 }
-

@@ -11,10 +11,11 @@
 }
 
 .modal {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  margin: 1em auto;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   transform-origin: left;
   background: rgba(255, 255, 255, 0.4);
   border-radius: 30px;
@@ -29,4 +30,26 @@
 
 .em-btn {
   padding: 1em;
+}
+
+/* Pour les navigateurs basés sur WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px; /* Largeur de la barre de scroll */
+}
+
+::-webkit-scrollbar-track {
+  background: #dce5e1; /* Couleur de l'arrière-plan de la barre */
+  border-radius: 10px; /* Arrondir les coins */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a7c1ba; /* Couleur de la barre de défilement */
+  border-radius: 10px; /* Arrondir les coins */
+  border: 2px solid #dce5e1; /* Créer un effet d'espace autour de la barre */
+}
+
+/* Pour Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a7c1ba #dce5e1;
 }

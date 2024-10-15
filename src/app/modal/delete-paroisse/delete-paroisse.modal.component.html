@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h2>Supprimer une paroisse</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    <p>Êtes vous sûr de vouloir supprimer la paroisse ?</p>
+    <p>La suppression est irreversible. L'abonnement annuel n'est pas remboursable.</p>
+    <div class="modal-footer">
+        <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+        <button class="em-btn danger" (click)="submitForm().subscribe()"><span>Supprimer</span></button>
+    </div>
+}
+
