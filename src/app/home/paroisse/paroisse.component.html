@@ -22,7 +22,7 @@
         }
         <div class="paroisse-list">
             @if (paroisse && paroisse){
-                <h3>{{paroisse.nom}}</h3>
+                <h3>{{paroisse.nom}} - <small>{{paroisse.diocese}}</small></h3>
                 <p>Paiement : 
                     @if(paroisse.paiement_a_jour){
                         <span class="badge badge-success">A jour</span>
@@ -30,8 +30,13 @@
                         <span class="em-btn danger" (click)="openRetryPayment().subscribe()">A régulariser</span>
                     }
                 </p>
-                <p>Coordonnées GPS : {{paroisse.gps}}</p>
-                <h4>{{paroisse.diocese}}</h4>
+                <p>Code unique : <strong>{{paroisse.code_unique}}</strong></p>
+                <p>Utilisateur(s) liés à la paroisse :</p>
+                <div class="paroisse-btn">
+                    @for(resp of paroisse.responsables; track resp){
+                        <span class="badge">{{resp}}</span>
+                    }
+                </div>
                 
                 <div class="paroisse-btn">
                     <div class="em-btn danger" (click)="openLeaveParoisseModal()">

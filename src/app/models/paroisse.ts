@@ -9,10 +9,10 @@ export interface Paroisse {
     gps: string;
     eglises: Eglise[];
     diocese?: Diocese;
-    responsables: Utilisateur[];
+    responsables: string[];
     feuillets: Feuillet[];
     paiement_a_jour: boolean;
-    codeUnique: string;
+    code_unique: string;
 }
 
 export interface ParoisseData {
