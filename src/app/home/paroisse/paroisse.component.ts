@@ -9,7 +9,7 @@ import { DeleteParoisseModalComponent } from '../../modal/delete-paroisse/delete
 import { JoinParoisseModalComponent } from '../../modal/join-paroisse/join-paroisse.modal.component';
 import { LeaveParoisseModalComponent } from '../../modal/leave-paroisse/leave-paroisse.modal.component';
 import { finalize, Observable, of, switchMap, tap } from 'rxjs';
-import { PaymentIntent } from '../../models/payment';
+import { BillingPortal, PaymentIntent } from '../../models/payment';
 
 
 @Component({
@@ -23,6 +23,8 @@ export class ParoisseComponent implements OnInit {
   isLoading: boolean = false;
   paroisse: Paroisse;
   paymentLink: any;
+  billingPortalLink: string;
+
   constructor(private modalService: ModalService, private paroisseService: ParoisseService){}
 
   ngOnInit(): void {
@@ -128,6 +130,24 @@ export class ParoisseComponent implements OnInit {
       tap((paymentIntent: PaymentIntent) => {
         this.paymentLink = paymentIntent.paymentLink;
         window.open(this.paymentLink, "_blank");
+      }),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    );
+  }
+
+  openBillingPortal(): Observable<BillingPortal> {
+    return of(undefined).pipe(
+      tap(() => {
+        this.isLoading = true;
+      }),
+      switchMap(() => {
+        return this.paroisseService.billingPortal(this.paroisse.id);
+      }),
+      tap((billingPortal: BillingPortal) => {
+        this.billingPortalLink = billingPortal.billingPortalLink;
+        window.open(this.billingPortalLink, "_blank");
       }),
       finalize(() => {
         this.isLoading = false;

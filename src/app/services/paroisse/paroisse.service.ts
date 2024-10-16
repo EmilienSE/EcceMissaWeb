@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoinParoisseData, Paroisse, ParoisseData } from '../../models/paroisse';
 import { environment } from '../../../environment/environment';
-import { PaymentData, PaymentIntent } from '../../models/payment';
-import { PaymentIntentResult } from '@stripe/stripe-js';
+import { BillingPortal, PaymentData, PaymentIntent } from '../../models/payment';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +96,14 @@ export class ParoisseService {
    */
   retryPayment(id: number): Observable<PaymentIntent> {
     return this.http.post<PaymentIntent>(`${this.apiUrl}/${id}/retry_payment`, {});
+  }
+
+  /**
+   * Accéder à la page de facturation
+   * @returns lien de la page de facturation
+   */
+  billingPortal(id: number): Observable<BillingPortal> {
+    return this.http.get<BillingPortal>(`${this.apiUrl}/${id}/billing_portal`);
   }
 
   /**

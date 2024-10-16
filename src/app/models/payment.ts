@@ -9,6 +9,10 @@ export interface PaymentIntent {
     paymentLink: string;
 }
 
+export interface BillingPortal {
+    billingPortalLink: string;
+}
+
 export interface PaymentData {
     payment_intent_id: string;
     paroisse_id: string;
