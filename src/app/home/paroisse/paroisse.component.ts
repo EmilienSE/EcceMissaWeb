@@ -8,6 +8,9 @@ import { Options } from '../../modal/modal-options';
 import { DeleteParoisseModalComponent } from '../../modal/delete-paroisse/delete-paroisse.modal.component';
 import { JoinParoisseModalComponent } from '../../modal/join-paroisse/join-paroisse.modal.component';
 import { LeaveParoisseModalComponent } from '../../modal/leave-paroisse/leave-paroisse.modal.component';
+import { finalize, Observable, of, switchMap, tap } from 'rxjs';
+import { PaymentIntent } from '../../models/payment';
+
 
 @Component({
   selector: 'app-paroisse',
@@ -19,6 +22,7 @@ import { LeaveParoisseModalComponent } from '../../modal/leave-paroisse/leave-pa
 export class ParoisseComponent implements OnInit {
   isLoading: boolean = false;
   paroisse: Paroisse;
+  paymentLink: any;
   constructor(private modalService: ModalService, private paroisseService: ParoisseService){}
 
   ngOnInit(): void {
@@ -113,7 +117,21 @@ export class ParoisseComponent implements OnInit {
     this.modalService.open(LeaveParoisseModalComponent, options, {paroisseId: this.paroisse.id});
   }
 
-  openPaymentModal() {
-    throw new Error('Method not implemented.');
+  openRetryPayment(): Observable<PaymentIntent> {
+    return of(undefined).pipe(
+      tap(() => {
+        this.isLoading = true;
+      }),
+      switchMap(() => {
+        return this.paroisseService.retryPayment(this.paroisse.id);
+      }),
+      tap((paymentIntent: PaymentIntent) => {
+        this.paymentLink = paymentIntent.paymentLink;
+        window.open(this.paymentLink, "_blank");
+      }),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    );
   }
 }

@@ -83,12 +83,20 @@ export class ParoisseService {
 
   /**
    * Création d'une intention de paiement
-   * @returns client secret
+   * @returns lien de paiement
    */
   createPaymentIntent(id: string): Observable<PaymentIntent> {
     const formData: FormData = new FormData();
     formData.append('paroisse_id', id);
     return this.http.post<PaymentIntent>(`${this.apiUrl}/paymentIntent`, formData);
+  }
+  
+  /**
+   * Régularisation de paiement
+   * @returns lien de paiement
+   */
+  retryPayment(id: number): Observable<PaymentIntent> {
+    return this.http.post<PaymentIntent>(`${this.apiUrl}/${id}/retry_payment`, {});
   }
 
   /**

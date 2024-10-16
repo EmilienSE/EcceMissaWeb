@@ -1,7 +1,6 @@
 .paroisse {
     .em-btn {
-        padding: .5em;
-        display: inline;
+        padding: .5em 1em;
     }
 
     &-container {
@@ -14,6 +13,12 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+
+        
+        .em-btn {
+            padding: .5em;
+            display: inline;
+        }
 
         & .add-button {
             height: 40px;
@@ -33,37 +38,12 @@
         position: relative;
 
         .paroisse-btn {
-            margin-bottom: .5em;
-            padding: 1em;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            position: relative;
+            justify-content: center;
 
-            .paroisse-indicators {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-
-                & > img {
-                    width: 20px;
-                    height: 20px;
-                    margin-right: .5em;
-                    transition: all 200ms ease-in-out;
-
-                    &:hover {
-                        filter: invert(.6);
-                    }
-                    &.danger:hover {
-                        filter: invert(21%) sepia(100%) saturate(7414%) hue-rotate(359deg) brightness(94%) contrast(117%);
-                    }
-                }
-
-                .indicator-views {
-                    margin-right: 1.5em;
-                }
-
-                
+            .em-btn {
+                margin-left: .5em;
             }
         }
     }

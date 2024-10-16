@@ -27,25 +27,28 @@
                     @if(paroisse.paiement_a_jour){
                         <span class="badge badge-success">A jour</span>
                     } @else {
-                        <span class="em-btn danger" (click)="openPaymentModal()">A régulariser</span>
+                        <span class="em-btn danger" (click)="openRetryPayment().subscribe()">A régulariser</span>
                     }
                 </p>
                 <p>Coordonnées GPS : {{paroisse.gps}}</p>
                 <h4>{{paroisse.diocese}}</h4>
-                <div class="em-btn" (click)="openLeaveParoisseModal()">
-                    Quitter la paroisse
-                    <img src="assets/img/plus.svg" alt="Quitter la paroisse">
+                
+                <div class="paroisse-btn">
+                    <div class="em-btn danger" (click)="openLeaveParoisseModal()">
+                        Quitter la paroisse
+                    </div>
                 </div>
             }
             @else if(!isLoading && !paroisse){
                 <h3>Vous n'êtes rattaché à aucune paroisse</h3>
-                <div class="em-btn" (click)="openAddModal()">
-                    Ajouter une paroisse
-                    <img src="assets/img/plus.svg" alt="Ajouter une paroisse">
-                </div>
-                <div class="em-btn" (click)="openJoinModal()">
-                    Rejoindre une paroisse
-                    <img src="assets/img/plus.svg" alt="Rejoindre une paroisse">
+                <div class="paroisse-btn">
+                    <div class="em-btn" (click)="openAddModal()">
+                        <img src="assets/img/plus.svg" alt="Ajouter une paroisse">
+                        Ajouter une paroisse
+                    </div>
+                    <div class="em-btn" (click)="openJoinModal()">
+                        Rejoindre une paroisse
+                    </div>
                 </div>
             }
         </div>
