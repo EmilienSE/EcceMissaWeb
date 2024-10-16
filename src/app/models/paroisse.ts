@@ -9,6 +9,7 @@ export interface Paroisse {
     gps: string;
     eglises: Eglise[];
     diocese?: Diocese;
+    diocese_id?: string;
     responsables: string[];
     feuillets: Feuillet[];
     paiement_a_jour: boolean;

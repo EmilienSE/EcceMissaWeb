@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h2>Modifier une paroisse</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    <form class="modal-form" [formGroup]="editParoisseForm">
+        <div class="form-group">
+            <label for="nom">Nom de la paroisse :</label>
+            <input type="text" name="nom" id="nom" class="em-input" [formControlName]="'nom'"/>
+        </div>
+        <div class="form-group">
+            <label for="diocese">Diocèse :</label>
+            <select name="diocese" id="diocese" class="em-input" [formControlName]="'diocese_id'">
+                <option *ngFor="let diocese of dioceses" [value]="diocese.id">{{diocese.nom}}</option>
+            </select>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+        <button class="em-btn success" [disabled]="!editParoisseForm.valid" (click)="submitForm().subscribe()"><span>Modifier</span></button>
+    </div>
+}

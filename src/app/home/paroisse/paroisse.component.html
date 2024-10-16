@@ -8,7 +8,7 @@
                 </div>
             } @else if(!isLoading && paroisse) {
                 <div class="action-btns">
-                    <div class="add-button em-btn" (click)="openEditModal()">
+                    <div class="add-button em-btn" (click)="openEditParoisseModal()">
                         <img src="assets/img/edit.svg" alt="Modifier paroisse">
                     </div>
                     <div class="add-button em-btn" (click)="openDeleteModal()">
@@ -19,47 +19,48 @@
         </div>
         @if (isLoading){
             <app-em-loader></app-em-loader>
-        }
-        <div class="paroisse-list">
-            @if (paroisse && paroisse){
-                <h3>{{paroisse.nom}} - <small>{{paroisse.diocese}}</small></h3>
-                <p>Paiement : 
-                    @if(paroisse.paiement_a_jour){
-                        <span class="badge badge-success">A jour</span>
-                        <div class="paroisse-btn">
-                            <p class="em-btn" (click)="openBillingPortal().subscribe()">Accéder au portail client</p>
+        } @else {
+            <div class="paroisse-list">
+                @if (paroisse && paroisse){
+                    <h3>{{paroisse.nom}} - <small>{{paroisse.diocese}}</small></h3>
+                    <p>Paiement : 
+                        @if(paroisse.paiement_a_jour){
+                            <span class="badge badge-success">A jour</span>
+                            <div class="paroisse-btn">
+                                <p class="em-btn" (click)="openBillingPortal().subscribe()">Accéder au portail client</p>
+                            </div>
+                        } @else {
+                            <span class="em-btn danger" (click)="openRetryPayment().subscribe()">A régulariser</span>
+                        }
+                    </p>
+                    <p>Code unique : <strong>{{paroisse.code_unique}}</strong></p>
+                    <p>Utilisateur(s) liés à la paroisse :</p>
+                    <div class="paroisse-btn">
+                        @for(resp of paroisse.responsables; track resp){
+                            <span class="badge">{{resp}}</span>
+                        }
+                    </div>
+                    
+                    <div class="paroisse-btn">
+                        <div class="em-btn danger" (click)="openLeaveParoisseModal()">
+                            Quitter la paroisse
                         </div>
-                    } @else {
-                        <span class="em-btn danger" (click)="openRetryPayment().subscribe()">A régulariser</span>
-                    }
-                </p>
-                <p>Code unique : <strong>{{paroisse.code_unique}}</strong></p>
-                <p>Utilisateur(s) liés à la paroisse :</p>
-                <div class="paroisse-btn">
-                    @for(resp of paroisse.responsables; track resp){
-                        <span class="badge">{{resp}}</span>
-                    }
-                </div>
-                
-                <div class="paroisse-btn">
-                    <div class="em-btn danger" (click)="openLeaveParoisseModal()">
-                        Quitter la paroisse
                     </div>
-                </div>
-            }
-            @else if(!isLoading && !paroisse){
-                <h3>Vous n'êtes rattaché à aucune paroisse</h3>
-                <div class="paroisse-btn">
-                    <div class="em-btn" (click)="openAddModal()">
-                        <img src="assets/img/plus.svg" alt="Ajouter une paroisse">
-                        Ajouter une paroisse
+                }
+                @else if(!isLoading && !paroisse){
+                    <h3>Vous n'êtes rattaché à aucune paroisse</h3>
+                    <div class="paroisse-btn">
+                        <div class="em-btn" (click)="openAddModal()">
+                            <img src="assets/img/plus.svg" alt="Ajouter une paroisse">
+                            Ajouter une paroisse
+                        </div>
+                        <div class="em-btn" (click)="openJoinModal()">
+                            Rejoindre une paroisse
+                        </div>
                     </div>
-                    <div class="em-btn" (click)="openJoinModal()">
-                        Rejoindre une paroisse
-                    </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        }
         
     </div>
 </div>

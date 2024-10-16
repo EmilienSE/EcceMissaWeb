@@ -10,6 +10,7 @@ import { JoinParoisseModalComponent } from '../../modal/join-paroisse/join-paroi
 import { LeaveParoisseModalComponent } from '../../modal/leave-paroisse/leave-paroisse.modal.component';
 import { finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { BillingPortal, PaymentIntent } from '../../models/payment';
+import { EditParoisseModalComponent } from '../../modal/edit-paroisse/edit-paroisse.modal.component';
 
 
 @Component({
@@ -51,15 +52,6 @@ export class ParoisseComponent implements OnInit {
         width: '40rem',
       },
     });
-  }
-
-  openParoisse(paroisseId: number, event: Event){
-    event.stopPropagation();
-
-  }
-
-  openEditModal() {
-    throw new Error('Method not implemented.');
   }
 
   openDeleteModal() {
@@ -153,5 +145,31 @@ export class ParoisseComponent implements OnInit {
         this.isLoading = false;
       })
     );
+  }
+
+  openEditParoisseModal() {
+    const options: Options = {
+      animations: {
+        modal: {
+          enter: 'fade-in 0.3s ease-out',
+          leave: 'fade-out 0.3s forwards',
+        },
+        overlay: {
+          enter: 'fade-in 0.6s ease-out',
+          leave: 'fade-out 0.3s forwards',
+        },
+      },
+      size: {
+        width: '40rem',
+      },
+    }
+    const modalRef = this.modalService.open(EditParoisseModalComponent, options, {paroisseId: this.paroisse.id});
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
+        this.paroisse = paroisse;
+        this.isLoading = false;
+      });
+    });
   }
 }

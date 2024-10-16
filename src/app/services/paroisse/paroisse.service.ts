@@ -68,7 +68,11 @@ export class ParoisseService {
    * @returns Paroisse modifiée
    */
   updateParoisse(id: number, paroisseData: ParoisseData): Observable<Paroisse> {
-    return this.http.post<Paroisse>(`${this.apiUrl}/${id}`, paroisseData);
+    const formData: FormData = new FormData();
+    formData.append('nom', paroisseData.nom);
+    formData.append('gps', paroisseData.gps);
+    formData.append('diocese_id', paroisseData.diocese_id);
+    return this.http.post<Paroisse>(`${this.apiUrl}/${id}`, formData);
   }
 
   /**
