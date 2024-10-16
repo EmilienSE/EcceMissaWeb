@@ -23,7 +23,10 @@ export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: H
         return handle401Error(req, next, authService);
       } else {
         return throwError(() => {
-          return new Error()
+          return {
+            message: error.message || 'Unknown error',
+            status: error.status
+          };
         });
       }
     })

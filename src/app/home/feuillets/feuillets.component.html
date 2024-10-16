@@ -35,6 +35,17 @@
                     </div>
                 }
             }
+
+            @if(!isLoading && error && error === 'payment'){
+                <h3>Votre abonnement à la paroisse est en attente de mise à jour.</h3>
+                <p>Nous vous invitons à régulariser votre paiement afin de profiter pleinement de l'ajout et de la consultation des feuillets.</p>
+                <p>Si vous avez déjà effectué un virement SEPA, soyez assuré que votre accès sera rétabli dès la validation bancaire de l'opération.</p>
+                <div class="add-btn">
+                    <div class="em-btn add-btn success" (click)="openRetryPayment().subscribe()">
+                        Régulariser le paiement
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
