@@ -4,13 +4,13 @@ import { AddParoisseModalComponent } from '../../modal/add-paroisse/add-paroisse
 import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 import { Paroisse } from '../../models/paroisse';
 import { ParoisseService } from '../../services/paroisse/paroisse.service';
-import { Options } from '../../modal/modal-options';
 import { DeleteParoisseModalComponent } from '../../modal/delete-paroisse/delete-paroisse.modal.component';
 import { JoinParoisseModalComponent } from '../../modal/join-paroisse/join-paroisse.modal.component';
 import { LeaveParoisseModalComponent } from '../../modal/leave-paroisse/leave-paroisse.modal.component';
 import { finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { BillingPortal, PaymentIntent } from '../../models/payment';
 import { EditParoisseModalComponent } from '../../modal/edit-paroisse/edit-paroisse.modal.component';
+import { modalOptions } from '../../utils/modalOptions.utils';
 
 
 @Component({
@@ -37,7 +37,7 @@ export class ParoisseComponent implements OnInit {
   }
 
   openAddModal() {
-    this.modalService.open(AddParoisseModalComponent, {
+    const modalRef = this.modalService.open(AddParoisseModalComponent, {
       animations: {
         modal: {
           enter: 'fade-in 0.3s ease-out',
@@ -52,63 +52,46 @@ export class ParoisseComponent implements OnInit {
         width: '40rem',
       },
     });
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
+        this.paroisse = paroisse;
+        this.isLoading = false;
+      });
+    });
   }
 
   openDeleteModal() {
-    const options: Options = {
-      animations: {
-        modal: {
-          enter: 'fade-in 0.3s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-        overlay: {
-          enter: 'fade-in 0.6s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-      },
-      size: {
-        width: '40rem',
-      },
-    }
-    this.modalService.open(DeleteParoisseModalComponent, options, {paroisseId: this.paroisse.id});
+    const modalRef = this.modalService.open(DeleteParoisseModalComponent, modalOptions, {paroisseId: this.paroisse.id});
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
+        this.paroisse = paroisse;
+        this.isLoading = false;
+      });
+    });
   }
   
   openJoinModal() {
-    const options: Options = {
-      animations: {
-        modal: {
-          enter: 'fade-in 0.3s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-        overlay: {
-          enter: 'fade-in 0.6s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-      },
-      size: {
-        width: '40rem',
-      },
-    }
-    this.modalService.open(JoinParoisseModalComponent, options);
+    const modalRef = this.modalService.open(JoinParoisseModalComponent, modalOptions);
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
+        this.paroisse = paroisse;
+        this.isLoading = false;
+      });
+    });
   }
 
   openLeaveParoisseModal() {
-    const options: Options = {
-      animations: {
-        modal: {
-          enter: 'fade-in 0.3s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-        overlay: {
-          enter: 'fade-in 0.6s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-      },
-      size: {
-        width: '40rem',
-      },
-    }
-    this.modalService.open(LeaveParoisseModalComponent, options, {paroisseId: this.paroisse.id});
+    const modalRef = this.modalService.open(LeaveParoisseModalComponent, modalOptions, {paroisseId: this.paroisse.id});
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
+        this.paroisse = paroisse;
+        this.isLoading = false;
+      });
+    });
   }
 
   openRetryPayment(): Observable<PaymentIntent> {
@@ -148,22 +131,7 @@ export class ParoisseComponent implements OnInit {
   }
 
   openEditParoisseModal() {
-    const options: Options = {
-      animations: {
-        modal: {
-          enter: 'fade-in 0.3s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-        overlay: {
-          enter: 'fade-in 0.6s ease-out',
-          leave: 'fade-out 0.3s forwards',
-        },
-      },
-      size: {
-        width: '40rem',
-      },
-    }
-    const modalRef = this.modalService.open(EditParoisseModalComponent, options, {paroisseId: this.paroisse.id});
+    const modalRef = this.modalService.open(EditParoisseModalComponent, modalOptions, {paroisseId: this.paroisse.id});
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
       this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
