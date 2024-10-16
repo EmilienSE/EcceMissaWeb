@@ -61,6 +61,15 @@
                 
             }
         }
+
+        .add-btn {
+            margin-bottom: .5em;
+            padding: 1em;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            position: relative;
+        }
     }
 
     &.em-block {

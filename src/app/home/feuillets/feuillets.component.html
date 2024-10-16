@@ -11,16 +11,26 @@
         }
         <div class="feuillets-list">
             @if (feuillets){
-                @for (feuillet of feuillets; track feuillet.id){
-                    <div class="em-btn feuillet-btn" (click)="openFeuillet(feuillet.id, $event)">
-                        <span class="feuillet-txt">
-                            Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.egliseName}}
-                        </span>
-                        <div class="feuillet-indicators">
-                            <img src="assets/img/oeil.svg" alt="">
-                            <div class="indicator-views">{{feuillet.viewCount}}</div>
-                            <img src="assets/img/edit.svg" alt="" (click)="editFeuillet(feuillet.id, $event)">
-                            <img src="assets/img/trash.svg" alt="" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
+                @if (feuillets.length > 0) {
+                    @for (feuillet of feuillets; track feuillet.id){
+                        <div class="em-btn feuillet-btn" (click)="openFeuillet(feuillet.id, $event)">
+                            <span class="feuillet-txt">
+                                Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.egliseName}}
+                            </span>
+                            <div class="feuillet-indicators">
+                                <img src="assets/img/oeil.svg" alt="">
+                                <div class="indicator-views">{{feuillet.viewCount}}</div>
+                                <img src="assets/img/edit.svg" alt="" (click)="editFeuillet(feuillet.id, $event)">
+                                <img src="assets/img/trash.svg" alt="" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
+                            </div>
+                        </div>
+                    }
+                } @else {
+                    <h3>Aucun feuillet téléchargé pour le moment</h3>
+                    <div class="add-btn">
+                        <div class="em-btn add-btn" (click)="openAddModal()">
+                            <img src="assets/img/plus.svg" alt="Ajouter une feuillet">
+                            Ajouter un nouveau feuillet
                         </div>
                     </div>
                 }
