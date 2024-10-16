@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, ViewChild, ViewEncapsulation } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from "@angular/core";
 import { Observable, fromEvent, zip } from "rxjs";
 import { Options } from "./modal-options";
 import { ModalService } from "../modal.service";
@@ -8,11 +8,12 @@ import { ModalService } from "../modal.service";
   standalone: true,
   imports: [],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss'
+  styleUrls: ['./modal.component.scss'] // Corrigé de styleUrl à styleUrls
 })
 export class ModalComponent implements AfterViewInit {
   @ViewChild('modal') modal!: ElementRef<HTMLDivElement>;
   @ViewChild('overlay') overlay!: ElementRef<HTMLDivElement>;
+  @Output() closed = new EventEmitter<void>();  // Ajout de l'EventEmitter
   options!: Options | undefined;
   modalAnimationEnd!: Observable<Event>;
   modalLeaveAnimation!: string;
@@ -29,13 +30,11 @@ export class ModalComponent implements AfterViewInit {
 
   @HostListener('document:keydown.escape')
   onEscape() {
-    // closing modal on escape     
-    this.modalService.close();
+    this.close();
   }
 
   onClose() {
-    // closing modal when clicking on the overlay
-    this.modalService.close();
+    this.close();
   }
 
   ngAfterViewInit() {
@@ -52,7 +51,6 @@ export class ModalComponent implements AfterViewInit {
   }
 
   addOptions() {
-    // Applying desired styles
     this.modal.nativeElement.style.minWidth =
       this.options?.size?.minWidth || 'auto';
     this.modal.nativeElement.style.width = this.options?.size?.width || 'auto';
@@ -64,16 +62,13 @@ export class ModalComponent implements AfterViewInit {
       this.options?.size?.height || 'auto';
     this.modal.nativeElement.style.maxHeight =
       this.options?.size?.maxHeight || 'auto';
-  
-    // Storing ending animation in variables
+
     this.modalLeaveAnimation = this.options?.animations?.modal?.leave || '';
     this.overlayLeaveAnimation = this.options?.animations?.overlay?.leave || '';
-    // Adding an animationend event listener to know when animations ends     
     this.modalAnimationEnd = this.animationendEvent(this.modal.nativeElement);
     this.overlayAnimationEnd = this.animationendEvent(
       this.overlay.nativeElement
     );
-    // Get to know how long animations are
     this.modalLeaveTiming = this.getAnimationTime(this.modalLeaveAnimation);
     this.overlayLeaveTiming = this.getAnimationTime(this.overlayLeaveAnimation);
   }
@@ -92,8 +87,6 @@ export class ModalComponent implements AfterViewInit {
     this.modal.nativeElement.style.animation = this.modalLeaveAnimation;
     this.overlay.nativeElement.style.animation = this.overlayLeaveAnimation;
 
-    // Goal here is to clean up the DOM to not keep unnecessary <app-modal> element
-    // No animations on both elements:
     if (
       !this.options?.animations?.modal?.leave &&
       !this.options?.animations?.overlay?.leave
@@ -103,7 +96,6 @@ export class ModalComponent implements AfterViewInit {
       return;
     }
 
-    // Remove element if not animated
     this.removeElementIfNoAnimation(
       this.modal.nativeElement,
       this.modalLeaveAnimation
@@ -113,7 +105,10 @@ export class ModalComponent implements AfterViewInit {
       this.overlayLeaveAnimation
     );
 
-    // Both elements are animated, remove modal as soon as longest one ends
+    // Émet l'événement de fermeture avant de retirer le modal
+    this.closed.emit();
+
+    // Gestion de la suppression du modal avec animation
     if (this.modalLeaveTiming > this.overlayLeaveTiming) {
       this.modalAnimationEnd.subscribe(() => {
         this.element.nativeElement.remove();
@@ -132,7 +127,6 @@ export class ModalComponent implements AfterViewInit {
   }
 
   getAnimationTime(animation: string) {
-    // Example animation = 'fade-in 0.8s'    
     let animationTime = 0;
     const splittedAnimation = animation.split(' ');
     for (const expression of splittedAnimation) {
