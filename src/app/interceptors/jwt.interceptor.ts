@@ -3,9 +3,11 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 import { inject } from '@angular/core';
+import { NotifyService } from '../notify.service';
 
 export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const authService = inject(AuthService);
+  const notifyService = inject(NotifyService);
   const token = authService.getToken();
 
   if (token) {
@@ -14,6 +16,9 @@ export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: H
 
   return next(req).pipe(
     catchError((error) => {
+      if(error instanceof HttpErrorResponse) {
+        notifyService.open(error.error?.error || 'Une erreur est survenue.', 'danger', 5000);
+      }
       if (error instanceof HttpErrorResponse && error.status === 401) {
         return handle401Error(req, next, authService);
       } else {

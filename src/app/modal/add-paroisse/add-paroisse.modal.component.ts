@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ModalService } from '../../modal.service';
 import { CommonModule } from '@angular/common';
 import { Formify } from '../../utils/formify.utils';
-import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { ParoisseService } from '../../services/paroisse/paroisse.service';
 import { Paroisse, ParoisseData } from '../../models/paroisse';
 import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
@@ -98,7 +98,7 @@ export class AddParoisseModalComponent implements OnInit {
         if (err instanceof Error) {
           console.error(err);
         }
-        return of(undefined);
+        return throwError(() => err);
       }),
       switchMap(() => {
         return this.paroisseService.createPaymentIntent(this.paroisseID);

@@ -11,6 +11,7 @@ import { finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { BillingPortal, PaymentIntent } from '../../models/payment';
 import { EditParoisseModalComponent } from '../../modal/edit-paroisse/edit-paroisse.modal.component';
 import { modalOptions } from '../../utils/modalOptions.utils';
+import { NotifyService } from '../../notify.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ParoisseComponent implements OnInit {
   paymentLink: any;
   billingPortalLink: string;
 
-  constructor(private modalService: ModalService, private paroisseService: ParoisseService){}
+  constructor(private modalService: ModalService, private paroisseService: ParoisseService, private notifyService: NotifyService){}
 
   ngOnInit(): void {
     this.isLoading = true;
