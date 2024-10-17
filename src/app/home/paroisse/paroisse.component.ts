@@ -26,14 +26,25 @@ export class ParoisseComponent implements OnInit {
   paroisse: Paroisse;
   paymentLink: any;
   billingPortalLink: string;
+  error: string;
 
   constructor(private modalService: ModalService, private paroisseService: ParoisseService, private notifyService: NotifyService){}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
-      this.paroisse = paroisse;
-      this.isLoading = false;
+    this.paroisseService.getUserParoisse().subscribe({
+      next: (paroisse: Paroisse) => {
+        this.paroisse = paroisse;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        if (error.status === 404) {
+          this.error = 'paroisse';
+        } else {
+          this.error = error.message || 'Une erreur est survenue';
+        }
+      }
     });
   }
 

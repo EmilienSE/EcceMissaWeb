@@ -6,6 +6,7 @@ import { ParoisseComponent } from './home/paroisse/paroisse.component';
 import { CompteComponent } from './home/compte/compte.component';
 import { ConnexionComponent } from './connexion/connexion.component';
 import { authGuard } from './guard/auth.guard';
+import { InscriptionComponent } from './inscription/inscription.component';
 
 export const routes: Routes = [
     { 
@@ -31,5 +32,6 @@ export const routes: Routes = [
             },
         ] 
     },
-    { path: 'connexion', component: ConnexionComponent }
+    { path: 'connexion', component: ConnexionComponent },
+    { path: 'inscription', component: InscriptionComponent }
 ];

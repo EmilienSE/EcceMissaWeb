@@ -13,10 +13,11 @@ import { finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { ParoisseService } from '../../services/paroisse/paroisse.service';
 import { PaymentIntent } from '../../models/payment';
 import { Paroisse } from '../../models/paroisse';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-feuillets',
   standalone: true,
-  imports: [CommonModule, EmLoaderComponent],
+  imports: [CommonModule, EmLoaderComponent, RouterLink],
   templateUrl: './feuillets.component.html',
   styleUrl: './feuillets.component.scss'
 })
@@ -44,6 +45,8 @@ export class FeuilletsComponent implements OnInit {
         this.isLoading = false;
         if (error.status === 403) {
           this.error = 'payment';
+        } else if (error.status === 404) {
+          this.error = 'paroisse';
         } else {
           this.error = error.message || 'Une erreur est survenue';
         }

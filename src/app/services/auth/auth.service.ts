@@ -5,7 +5,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment';
 import { ModalService } from '../../modal.service';
-import { ConnexionData } from '../../models/utilisateur';
+import { ConnexionData, InscriptionData } from '../../models/utilisateur';
+import { NotifyService } from '../../notify.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
   constructor(
     private http: HttpClient, 
     private router: Router,
-    private modalService: ModalService) {}
+    private notifyService: NotifyService) {}
 
   login(connexionData: ConnexionData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}login_check`, connexionData).pipe(
@@ -27,6 +28,24 @@ export class AuthService {
           localStorage.setItem('refresh_token', response.refresh_token);
           this.router.navigate(['/']);
         }
+      })
+    );
+  }
+
+  inscription(inscriptionData: InscriptionData): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('email', inscriptionData.email);
+    formData.append('prenom', inscriptionData.prenom);
+    formData.append('nom', inscriptionData.nom);
+    formData.append('password', inscriptionData.password);
+    return this.http.post<any>(`${this.apiUrl}inscription`, formData).pipe(
+      tap(() => {
+        this.notifyService.open('Votre compte a bien été créé. Redirection en cours.', 'success', 5000);
+        const connexionData: ConnexionData = {
+          username: inscriptionData.email,
+          password: inscriptionData.password
+        };
+        this.login(connexionData).subscribe();
       })
     );
   }

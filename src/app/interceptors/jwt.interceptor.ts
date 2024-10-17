@@ -10,13 +10,13 @@ export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: H
   const notifyService = inject(NotifyService);
   const token = authService.getToken();
 
-  if (token && !req.url.includes('api/login_check')) {
+  if (token && !req.url.includes('api/login_check') && !req.url.includes('api/inscription')) {
     req = addToken(req, token);
   }
 
   return next(req).pipe(
     catchError((error) => {
-      if(error instanceof HttpErrorResponse) {
+      if(error instanceof HttpErrorResponse && (error.status === 403 || error.status === 400 || error.status === 500)) {
         notifyService.open(error.error?.error || 'Une erreur est survenue.', 'danger', 5000);
       }
       if (error instanceof HttpErrorResponse && error.status === 401) {
