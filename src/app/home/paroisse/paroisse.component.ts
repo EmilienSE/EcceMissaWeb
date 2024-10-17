@@ -66,9 +66,19 @@ export class ParoisseComponent implements OnInit {
     });
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
-        this.paroisse = paroisse;
-        this.isLoading = false;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
       });
     });
   }
@@ -77,9 +87,19 @@ export class ParoisseComponent implements OnInit {
     const modalRef = this.modalService.open(DeleteParoisseModalComponent, modalOptions, {paroisseId: this.paroisse.id});
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
-        this.paroisse = paroisse;
-        this.isLoading = false;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
       });
     });
   }
@@ -88,9 +108,19 @@ export class ParoisseComponent implements OnInit {
     const modalRef = this.modalService.open(JoinParoisseModalComponent, modalOptions);
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
-        this.paroisse = paroisse;
-        this.isLoading = false;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
       });
     });
   }
@@ -99,9 +129,19 @@ export class ParoisseComponent implements OnInit {
     const modalRef = this.modalService.open(LeaveParoisseModalComponent, modalOptions, {paroisseId: this.paroisse.id});
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
-        this.paroisse = paroisse;
-        this.isLoading = false;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
       });
     });
   }
@@ -146,9 +186,19 @@ export class ParoisseComponent implements OnInit {
     const modalRef = this.modalService.open(EditParoisseModalComponent, modalOptions, {paroisseId: this.paroisse.id});
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
-        this.paroisse = paroisse;
-        this.isLoading = false;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
       });
     });
   }

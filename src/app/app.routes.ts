@@ -19,12 +19,12 @@ export const routes: Routes = [
                 component: FeuilletsComponent
             },
             {
-                path: 'diocese',
-                component: DioceseComponent
-            },
-            {
                 path: 'paroisse',
                 component: ParoisseComponent
+            },
+            {
+                path: 'diocese',
+                component: DioceseComponent
             },
             {
                 path: 'compte',

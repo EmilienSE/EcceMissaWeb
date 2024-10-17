@@ -4,14 +4,14 @@ import { Formify } from '../utils/formify.utils';
 import { InscriptionData } from '../models/utilisateur';
 import { AuthService } from '../services/auth/auth.service';
 import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EmLoaderComponent } from '../modules/em-loader/em-loader.component';
 import { Size } from '../enums/size.enum';
 
 @Component({
   selector: 'app-inscription',
   standalone: true,
-  imports: [ReactiveFormsModule, EmLoaderComponent],
+  imports: [ReactiveFormsModule, EmLoaderComponent, RouterLink],
   templateUrl: './inscription.component.html',
   styleUrl: './inscription.component.scss'
 })
