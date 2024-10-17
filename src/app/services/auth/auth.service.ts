@@ -42,11 +42,16 @@ export class AuthService {
   }
 
   refreshToken(): Observable<any> {
-    const refresh_token = localStorage.getItem('refresh_token');
-    return this.http.post<any>(`${this.apiUrl}token/refresh`, { refresh_token }).pipe(
+    const formData: FormData = new FormData();
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (refreshToken !== null) {
+      formData.append('refresh_token', refreshToken);
+    }
+    return this.http.post<any>(`${this.apiUrl}token/refresh`, formData).pipe(
       tap(response => {
         if (response.token) {
           localStorage.setItem('access_token', response.token);
+          localStorage.setItem('refresh_token', response.refresh_token);
         }
       }),
       catchError((err) => {

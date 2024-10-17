@@ -10,7 +10,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: H
   const notifyService = inject(NotifyService);
   const token = authService.getToken();
 
-  if (token) {
+  if (token && !req.url.includes('api/login_check')) {
     req = addToken(req, token);
   }
 
