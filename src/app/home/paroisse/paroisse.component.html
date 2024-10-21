@@ -21,7 +21,7 @@
             <app-em-loader></app-em-loader>
         } @else {
             <div class="paroisse-list">
-                @if (paroisse && paroisse){
+                @if (paroisse){
                     <h3>{{paroisse.nom}} - <small>{{paroisse.diocese}}</small></h3>
                     <p>Paiement : 
                         @if(paroisse.paiement_a_jour){
@@ -49,6 +49,8 @@
                 }
                 @else if(!isLoading && !paroisse){
                     <h3>Vous n'êtes rattaché à aucune paroisse</h3>
+                    <p>Si vous êtes paroissien, vous pouvez entrer le code unique communiqué par votre paroisse.</p>
+                    <p>Si votre paroisse n'est pas encore créée sur Ecce Missa, vous pouvez la créer.</p>
                     <div class="paroisse-btn">
                         <div class="em-btn" (click)="openAddModal()">
                             <img src="assets/img/plus.svg" alt="Ajouter une paroisse">

@@ -1,1 +1,33 @@
-<div class="diocese em-block"></div>
+<div class="diocese em-block">
+    <div class="diocese-container">
+        <div class="diocese-title">
+            <h2>Mon diocese</h2>
+        </div>
+        @if (isLoading){
+            <app-em-loader></app-em-loader>
+        } @else {
+            <div class="diocese-list">
+                @if (diocese){
+                    <h3>{{diocese.nom}}</h3>
+                    <p>Paroisses du diocèse actives sur Ecce Missa:</p>
+                    <div class="diocese-btn">
+                        @for(paroisse of diocese.paroisses; track paroisse){
+                            <span class="badge">{{paroisse}}</span>
+                        }
+                    </div>
+                }
+                @else if(!isLoading && !diocese){
+                    <h3>Vous n'êtes rattaché à aucune paroisse</h3>
+                    <p>Si vous êtes paroissien, vous pouvez entrer le code unique communiqué par votre paroisse.</p>
+                    <p>Si votre paroisse n'est pas encore créée sur Ecce Missa, vous pouvez la créer.</p>
+                    <div class="add-btn">
+                        <div class="em-btn add-btn success" routerLink="/paroisse">
+                            Créer ou rejoindre une paroisse
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        
+    </div>
+</div>

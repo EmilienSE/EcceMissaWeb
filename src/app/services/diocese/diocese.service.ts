@@ -19,4 +19,12 @@ export class DioceseService {
   getDioceses(): Observable<Diocese[]> {
     return this.http.get<Diocese[]>(this.apiUrl);
   }
+
+  /**
+   * Récupération du diocèse de l'utilisateur
+   * @returns Diocese
+   */
+  getUserDiocese(): Observable<Diocese> {
+    return this.http.get<Diocese>(`${this.apiUrl}/mon_diocese`);
+  }
 }
