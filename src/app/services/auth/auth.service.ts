@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment';
 import { ModalService } from '../../modal.service';
@@ -71,11 +71,13 @@ export class AuthService {
         if (response.token) {
           localStorage.setItem('access_token', response.token);
           localStorage.setItem('refresh_token', response.refresh_token);
+        } else {
+          console.error('No token in response');
         }
       }),
       catchError((err) => {
         this.logout();
-        return of(undefined);
+        return throwError(() => err); 
       })
     );
   }
