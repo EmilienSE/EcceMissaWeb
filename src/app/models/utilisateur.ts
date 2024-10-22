@@ -1,6 +1,18 @@
 export interface Utilisateur {
     id: number;
-    // Ajoutez d'autres propriétés pertinentes de l'utilisateur ici
+    nom: string;
+    prenom: string;
+    email: string;
+    paroisse?: string;
+}
+export interface UtilisateurData extends Utilisateur {
+    password: string
+}
+
+export interface EditUtilisateurData {
+  nom: string;
+  prenom: string;
+  email: string;
 }
 
 export interface ConnexionData {

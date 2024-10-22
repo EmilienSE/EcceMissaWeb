@@ -1,0 +1,64 @@
+.compte {
+    .em-btn {
+        padding: .5em 1em;
+    }
+
+    &-container {
+        padding: 0 1.5em;
+        text-align: center;
+    }
+
+    &-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        
+        .em-btn {
+            padding: .5em;
+            display: inline;
+        }
+
+        & .add-button {
+            height: 40px;
+            width: 40px;
+
+            & > img {
+                margin: 0 auto;
+            }
+        } 
+    }
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        text-align: center;
+        position: relative;
+
+        .compte-btn {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-bottom: 1em;
+
+            .em-btn {
+                margin-left: .5em;
+            }
+        }
+
+        .add-btn {
+            margin-bottom: .5em;
+            padding: 1em;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            position: relative;
+        }
+    }
+    
+    &.em-block {
+        min-height: 100%;
+    }
+}

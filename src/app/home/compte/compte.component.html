@@ -1,1 +1,42 @@
-<div class="compte em-block"></div>
+<div class="compte em-block">
+    <div class="compte-container">
+        <div class="compte-title">
+            <h2>Mon compte</h2>
+        </div>
+        @if (isLoading){
+            <app-em-loader></app-em-loader>
+        } @else {
+            <div class="compte-list">
+                @if (utilisateur){
+                    <h3>{{utilisateur.prenom}} {{utilisateur.nom}}</h3>
+                    <p>{{utilisateur.email}}</p>
+                    <div class="compte-btn">
+                        @if(utilisateur.paroisse){
+                            <span class="badge">{{utilisateur.paroisse}}</span>
+                        } @else {
+                            <div class="em-btn add-btn success" routerLink="/paroisse">
+                                Créer ou rejoindre une paroisse
+                            </div>
+                        }
+                    </div>
+                    <div class="compte-btn">
+                        <div class="em-btn add-btn success" (click)="openEditUserModal()">
+                            Modifier mon profil
+                        </div>
+                    </div>
+                    <div class="compte-btn">
+                        <div class="em-btn add-btn success" (click)="openEditPasswordModal()">
+                            Modifier mon mot de passe
+                        </div>
+                    </div>
+                    <div class="compte-btn">
+                        <div class="em-btn add-btn danger" (click)="openDeleteUserModal()">
+                            Supprimer mon compte
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        
+    </div>
+</div>

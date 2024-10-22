@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h2>Modifier mon profil</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    <form class="modal-form" [formGroup]="editUtilisateurForm">
+        <div class="form-group">
+            <label for="nom">Nom :</label>
+            <input type="text" name="nom" id="nom" class="em-input" [formControlName]="'nom'"/>
+        </div>
+        <div class="form-group">
+            <label for="prenom">Prénom :</label>
+            <input type="text" name="prenom" id="prenom" class="em-input" [formControlName]="'prenom'"/>
+        </div>
+        <div class="form-group">
+            <label for="email">Mail :</label>
+            <input type="text" name="email" id="email" class="em-input" [formControlName]="'email'"/>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+        <button class="em-btn success" [disabled]="!editUtilisateurForm.valid" (click)="submitForm().subscribe()"><span>Modifier</span></button>
+    </div>
+}
