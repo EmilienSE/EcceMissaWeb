@@ -15,7 +15,6 @@ export interface Feuillet {
 }
 
 export interface FeuilletData {
-    eglise_id: string;
     celebration_date: string;
     paroisse_id: string;
     feuillet: File;

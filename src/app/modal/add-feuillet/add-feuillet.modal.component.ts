@@ -8,8 +8,6 @@ import { Formify } from '../../utils/formify.utils';
 import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ParoisseService } from '../../services/paroisse/paroisse.service';
 import { Paroisse } from '../../models/paroisse';
-import { Eglise } from '../../models/eglise';
-import { EgliseService } from '../../services/eglise/eglise.service';
 import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 
 @Component({
@@ -23,11 +21,9 @@ export class AddFeuilletModalComponent implements OnInit {
   feuilletFile!: File | null | undefined;
   isLoading: boolean = false;
   paroisses: Paroisse[];
-  eglises: Eglise[];
   fileName: string | undefined;
 
   addFeuilletForm: FormGroup = this.fb.group<Formify<FeuilletData>>({
-    eglise_id: [null, Validators.required],
     celebration_date: [null, Validators.required],
     paroisse_id: [null, Validators.required],
     feuillet: [null, Validators.required]
@@ -37,19 +33,15 @@ export class AddFeuilletModalComponent implements OnInit {
     private fb: FormBuilder, 
     public modalService: ModalService, 
     private feuilletService: FeuilletService,
-    private paroisseService: ParoisseService,
-    private egliseService: EgliseService
+    private paroisseService: ParoisseService
   ){}
 
   ngOnInit(): void {
     this.isLoading = true;
-      this.paroisseService.getParoisses().subscribe((paroisses: Paroisse[]) => {
-        this.paroisses = paroisses;
-        this.egliseService.getEglises().subscribe((eglises: Eglise[]) => {
-          this.eglises = eglises;
-          this.isLoading = false;
-        });
-      });
+    this.paroisseService.getParoisses().subscribe((paroisses: Paroisse[]) => {
+      this.paroisses = paroisses;
+      this.isLoading = false;
+    });
   }
 
   close(): void {

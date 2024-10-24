@@ -27,7 +27,6 @@ export class FeuilletService {
    */
   addFeuillet(feuilletData: FeuilletData): Observable<Feuillet> {
     const formData: FormData = new FormData();
-    formData.append('eglise_id', feuilletData.eglise_id);
     formData.append('celebration_date', feuilletData.celebration_date);
     formData.append('paroisse_id', feuilletData.paroisse_id);
     formData.append('feuillet', feuilletData.feuillet);
@@ -38,9 +37,6 @@ export class FeuilletService {
   // Mettre à jour un feuillet existant
   updateFeuillet(id: number, feuilletData: FeuilletData): Observable<Feuillet> {
     const formData: FormData = new FormData();
-    if (feuilletData.eglise_id) {
-      formData.append('eglise_id', feuilletData.eglise_id);
-    }
     if (feuilletData.celebration_date) {
       formData.append('celebration_date', feuilletData.celebration_date);
     }

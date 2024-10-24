@@ -28,7 +28,6 @@ export class EditFeuilletModalComponent implements OnInit {
   @Input() data: any;
 
   editFeuilletForm: FormGroup = this.fb.group<Formify<FeuilletData>>({
-    eglise_id: [null, Validators.required],
     celebration_date: [null, Validators.required],
     paroisse_id: [null, Validators.required],
     feuillet: [null]

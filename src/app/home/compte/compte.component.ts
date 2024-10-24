@@ -7,6 +7,7 @@ import { ModalService } from '../../modal.service';
 import { EditUtilisateurModalComponent } from '../../modal/edit-utilisateur/edit-utilisateur.modal.component';
 import { modalOptions } from '../../utils/modalOptions.utils';
 import { NotifyService } from '../../notify.service';
+import { ChangePasswordModalComponent } from '../../modal/change-password/change-password.modal.component';
 
 @Component({
   selector: 'app-compte',
@@ -42,13 +43,26 @@ export class CompteComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   openEditPasswordModal() {
-    throw new Error('Method not implemented.');
+    const modalRef = this.modalService.open(ChangePasswordModalComponent, modalOptions);
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.notifyService.open('Porfil modifié avec succès', 'success');
+      this.utilisateurService.getUtilisateurInfos().subscribe({
+        next: (utilisateur: Utilisateur) => {
+          this.utilisateur = utilisateur;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+        }
+      });
+    });
   }
   openEditUserModal() {
     const modalRef = this.modalService.open(EditUtilisateurModalComponent, modalOptions, {utilisateurId: this.utilisateur.id});
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.notifyService.open('Porfil modifié avec succès', 'success');
+      this.notifyService.open('Profil modifié avec succès', 'success');
       this.utilisateurService.getUtilisateurInfos().subscribe({
         next: (utilisateur: Utilisateur) => {
           this.utilisateur = utilisateur;

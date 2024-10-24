@@ -20,6 +20,11 @@ export interface ConnexionData {
   password: string;
 }
 
+export interface ChangePasswordData {
+  ancienPassword: string;
+  nouveauPassword: string;
+}
+
 export interface InscriptionData {
   nom: string;
   prenom: string;

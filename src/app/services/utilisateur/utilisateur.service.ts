@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
-import { EditUtilisateurData, Utilisateur, UtilisateurData } from '../../models/utilisateur';
+import { ChangePasswordData, EditUtilisateurData, Utilisateur, UtilisateurData } from '../../models/utilisateur';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +59,19 @@ export class UtilisateurService {
    */
   deleteUtilisateur(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  /**
+   * Changement de mot de passe de l'utilisateur
+   * @param ancienPassword Ancien mot de passe
+   * @param nouveauPassword Nouveau mot de passe
+   * @returns Observable<any>
+   */
+  changePassword(changePassword: ChangePasswordData): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('ancien_password', changePassword.ancienPassword);
+    formData.append('nouveau_password', changePassword.nouveauPassword);
+
+    return this.http.post(`${this.apiUrl}/modifier-mot-de-passe`, formData);
   }
 }
