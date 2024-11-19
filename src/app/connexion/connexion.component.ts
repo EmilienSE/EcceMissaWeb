@@ -40,6 +40,7 @@ export class ConnexionComponent {
         return this.authService.login(connexionData);
       }),
       catchError((err) => {
+        this.isLoading = false;
         if (err instanceof Error) {
           console.error(err);
         }

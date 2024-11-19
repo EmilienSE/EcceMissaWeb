@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment';
-import { ModalService } from '../../modal.service';
 import { ConnexionData, InscriptionData } from '../../models/utilisateur';
 import { NotifyService } from '../../notify.service';
 
@@ -28,6 +27,19 @@ export class AuthService {
           localStorage.setItem('refresh_token', response.refresh_token);
           this.router.navigate(['/']);
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Gestion spécifique pour l'erreur 401
+          console.error('Erreur 401 : Identifiants incorrects.');
+          this.notifyService.open('Erreur : Identifiants incorrects. Veuillez réessayer.', 'danger', 5000);
+        } else {
+          // Gestion d'autres erreurs
+          console.error(`Erreur ${error.status} :`, error.message);
+          this.notifyService.open('Une erreur est survenue. Veuillez réessayer plus tard.', 'danger', 5000);
+        }
+        // Retourner un Observable d'erreur pour arrêter le flux
+        return throwError(() => new Error('Erreur lors de la tentative de connexion.'));
       })
     );
   }

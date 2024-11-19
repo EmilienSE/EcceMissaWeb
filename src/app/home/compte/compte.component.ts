@@ -8,6 +8,8 @@ import { EditUtilisateurModalComponent } from '../../modal/edit-utilisateur/edit
 import { modalOptions } from '../../utils/modalOptions.utils';
 import { NotifyService } from '../../notify.service';
 import { ChangePasswordModalComponent } from '../../modal/change-password/change-password.modal.component';
+import { DeleteUtilisateurModalComponent } from '../../modal/delete-utilisateur/delete-utilisateur.modal.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-compte',
@@ -24,7 +26,8 @@ export class CompteComponent implements OnInit {
   constructor(
     private utilisateurService: UtilisateurService,
     private modalService: ModalService,
-    private notifyService: NotifyService){}
+    private notifyService: NotifyService,
+    private authService: AuthService){}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -40,13 +43,21 @@ export class CompteComponent implements OnInit {
   }
 
   openDeleteUserModal() {
-    throw new Error('Method not implemented.');
+    const modalRef = this.modalService.open(DeleteUtilisateurModalComponent, modalOptions);
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.notifyService.open('Profil supprimé avec succès, déconnexion en cours.', 'success');
+      setTimeout(() => {
+        this.authService.logout();
+      }, 2000);
+    });
   }
+
   openEditPasswordModal() {
     const modalRef = this.modalService.open(ChangePasswordModalComponent, modalOptions);
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.notifyService.open('Porfil modifié avec succès', 'success');
+      this.notifyService.open('Profil modifié avec succès', 'success');
       this.utilisateurService.getUtilisateurInfos().subscribe({
         next: (utilisateur: Utilisateur) => {
           this.utilisateur = utilisateur;

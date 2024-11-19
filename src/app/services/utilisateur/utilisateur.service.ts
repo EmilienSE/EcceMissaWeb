@@ -57,8 +57,8 @@ export class UtilisateurService {
    * @param id ID de l'utilisateur
    * @returns Observable<void>
    */
-  deleteUtilisateur(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteUtilisateur(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/delete`, {});
   }
 
   /**

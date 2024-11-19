@@ -19,7 +19,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: H
       if(error instanceof HttpErrorResponse && (error.status === 403 || error.status === 400 || error.status === 500)) {
         notifyService.open(error.error?.error || 'Une erreur est survenue.', 'danger', 5000);
       }
-      if (error instanceof HttpErrorResponse && error.status === 401) {
+      if (error instanceof HttpErrorResponse && error.status === 401 && !req.url.includes('api/login_check') && !req.url.includes('api/inscription')) {
         return handle401Error(req, next, authService);
       } else {
         return throwError(() => {
