@@ -62,7 +62,9 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout() {  
+    console.log('Logout triggered. Reason:');
+    new Error().stack && console.error(new Error().stack);
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     this.router.navigate(['/connexion']);
@@ -80,7 +82,7 @@ export class AuthService {
     }
     return this.http.post<any>(`${this.apiUrl}token/refresh`, formData).pipe(
       tap(response => {
-        if (response.token) {
+        if (response.token && response.refresh_token) {
           localStorage.setItem('access_token', response.token);
           localStorage.setItem('refresh_token', response.refresh_token);
         } else {
@@ -88,8 +90,7 @@ export class AuthService {
         }
       }),
       catchError((err) => {
-        this.logout();
-        return throwError(() => err); 
+        return throwError(() => err);
       })
     );
   }

@@ -50,15 +50,22 @@ function handle401Error(request: HttpRequest<any>, next: HttpHandlerFn, authServ
     refreshTokenSubject.next(null);
 
     return authService.refreshToken().pipe(
-      switchMap((token: any) => {
+      switchMap((response: any) => {
+        const newToken = response.token;
         isRefreshing = false;
-        refreshTokenSubject.next(token);
-        return next(addToken(request, token));
+        refreshTokenSubject.next(newToken);
+        return next(addToken(request, newToken));
       }),
       catchError((err) => {
         isRefreshing = false;
-        authService.logout();
-        return throwError(() => new Error(err));
+        console.error('Erreur lors du rafraîchissement du token:', err);
+        if (err.status === 401 || err.status === 400) {
+          console.warn('Token invalide ou expiré. Déconnexion.');
+          authService.logout();
+        } else {
+          console.warn('Erreur non critique, pas de déconnexion:', err);
+        }
+        return throwError(() => err);
       })
     );
   } else {
