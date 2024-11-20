@@ -23,7 +23,6 @@ export class EditFeuilletModalComponent implements OnInit {
   feuilletFile!: File | null | undefined;
   isLoading: boolean = false;
   paroisses: Paroisse[];
-  eglises: Eglise[];
   fileName: string | undefined;
   @Input() data: any;
 
@@ -46,13 +45,9 @@ export class EditFeuilletModalComponent implements OnInit {
     this.feuilletService.getFeuilletById(this.modalService.data.feuilletId).subscribe((feuillet: Feuillet) => {
       this.paroisseService.getParoisses().subscribe((paroisses: Paroisse[]) => {
         this.paroisses = paroisses;
-        this.egliseService.getEglises().subscribe((eglises: Eglise[]) => {
-          this.eglises = eglises;
-          this.editFeuilletForm.controls['celebration_date'].setValue(feuillet.celebrationDate);
-          this.editFeuilletForm.controls['paroisse_id'].setValue(feuillet.paroisse);
-          this.editFeuilletForm.controls['eglise_id'].setValue(feuillet.eglise);
-          this.isLoading = false;
-        });
+        this.editFeuilletForm.controls['celebration_date'].setValue(feuillet.celebrationDate);
+        this.editFeuilletForm.controls['paroisse_id'].setValue(feuillet.paroisse);
+        this.isLoading = false;
       });
     })
   }
