@@ -34,6 +34,11 @@
                         }
                     </p>
                     <p>Code unique : <strong>{{paroisse.code_unique}}</strong></p>
+                    <div class="paroisse-btn">
+                        <div class="em-btn" (click)="downloadParoisseQRCode()">
+                            Télécharger le QR Code de la paroisse
+                        </div>
+                    </div>
                     <p>Utilisateur(s) liés à la paroisse :</p>
                     <div class="paroisse-btn">
                         @for(resp of paroisse.responsables; track resp){

@@ -117,4 +117,13 @@ export class ParoisseService {
   sendPayment(paymentData: PaymentData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/sendPayment`, paymentData);
   }
+
+  /**
+   * Afficher le PDF d'un feuillet
+   * @param id
+   * @returns URL du PDF
+   */
+  generateParoissePdf(id: number): string {
+    return `${environment.API_URL}/paroisse/${id}/pdf`;
+  }
 }

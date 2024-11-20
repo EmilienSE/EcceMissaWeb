@@ -202,4 +202,8 @@ export class ParoisseComponent implements OnInit {
       });
     });
   }
+  
+  downloadParoisseQRCode() {
+    window.open(this.paroisseService.generateParoissePdf(this.paroisse.id), '_blank')
+  }
 }
