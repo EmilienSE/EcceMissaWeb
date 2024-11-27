@@ -29,16 +29,31 @@ export class FeuilletsComponent implements OnInit {
   paymentLink: any;
   paroisse: Paroisse;
 
+  currentPage: number = 1; // Page actuelle
+  pageSize: number = 10; // Taille de la page
+  totalItems: number = 0; // Total des éléments
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.pageSize);
+  }
+
   constructor(
     private modalService: ModalService,
     private feuilletService: FeuilletService,
     private paroisseService: ParoisseService){ }
 
   ngOnInit(): void {
+    this.loadFeuillets();
+  }
+
+  loadFeuillets(page: number = 1) {
     this.isLoading = true;
-    this.feuilletService.getFeuillets().subscribe({
-      next: (feuillets: Feuillet[]) => {
-        this.feuillets = feuillets;
+    this.feuillets = [];
+    this.feuilletService.getFeuillets(page, this.pageSize).subscribe({
+      next: (response: { data: Feuillet[], pagination: any }) => {
+        this.feuillets = response.data;
+        this.currentPage = response.pagination.current_page;
+        this.pageSize = response.pagination.page_size;
+        this.totalItems = response.pagination.total_items;
         this.isLoading = false;
       },
       error: (error) => {
@@ -52,6 +67,10 @@ export class FeuilletsComponent implements OnInit {
         }
       }
     });
+  }
+
+  onPageChange(newPage: number): void {
+    this.loadFeuillets(newPage);
   }
 
   openAddModal() {
@@ -72,8 +91,8 @@ export class FeuilletsComponent implements OnInit {
     });
     modalRef.closed.subscribe(() => {
       this.isLoading = true;
-      this.feuilletService.getFeuillets().subscribe((feuillets: Feuillet[]) => {
-        this.feuillets = feuillets;
+      this.feuilletService.getFeuillets().subscribe((response: { data: Feuillet[], pagination: any }) => {
+        this.feuillets = response.data;
         this.isLoading = false;
       });
     });
@@ -88,11 +107,7 @@ export class FeuilletsComponent implements OnInit {
     event.stopPropagation();
     const modalRef = this.modalService.open(DeleteFeuilletModalComponent, modalOptions, {feuilletId});
     modalRef.closed.subscribe(() => {
-      this.isLoading = true;
-      this.feuilletService.getFeuillets().subscribe((feuillets: Feuillet[]) => {
-        this.feuillets = feuillets;
-        this.isLoading = false;
-      });
+      this.loadFeuillets(this.currentPage);
     });
   }
 
@@ -100,11 +115,7 @@ export class FeuilletsComponent implements OnInit {
     event.stopPropagation();
     const modalRef = this.modalService.open(EditFeuilletModalComponent, modalOptions, {feuilletId});
     modalRef.closed.subscribe(() => {
-      this.isLoading = true;
-      this.feuilletService.getFeuillets().subscribe((feuillets: Feuillet[]) => {
-        this.feuillets = feuillets;
-        this.isLoading = false;
-      });
+      this.loadFeuillets(this.currentPage);
     });
   }
 

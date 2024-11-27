@@ -25,7 +25,7 @@
                             </div>
                         </div>
                     }
-                } @else {
+                } @else if(!isLoading) {
                     <h3>Aucun feuillet téléchargé pour le moment</h3>
                     <div class="add-btn">
                         <div class="em-btn add-btn" (click)="openAddModal()">
@@ -57,5 +57,12 @@
                 </div>
             }
         </div>
+        @if(!isLoading && totalItems > pageSize){
+            <div class="pagination-controls">
+                <button class="em-btn" [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)"><</button>
+                <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+                <button class="em-btn" [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">></button>
+            </div>
+        }
     </div>
 </div>

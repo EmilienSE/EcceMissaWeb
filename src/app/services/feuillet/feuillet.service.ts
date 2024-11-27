@@ -13,11 +13,21 @@ export class FeuilletService {
   constructor(private http: HttpClient) { }
 
   /**
-   * Récupération de tous les feuillets de l'utilisateur
-   * @returns Feuillets
+   * Récupérer les derniers feuillets d'une paroisse avec pagination
+   * @param page - Numéro de la page (optionnel, par défaut 1)
+   * @param size - Nombre d'éléments par page (optionnel, par défaut 5)
+   * @returns Observable avec les données paginées
    */
-  getFeuillets(): Observable<Feuillet[]> {
-    return this.http.get<Feuillet[]>(this.apiUrl);
+  getFeuillets(page: number = 1, size: number = 10): Observable<{ data: Feuillet[], pagination: any }> {
+    return this.http.get<{ data: Feuillet[], pagination: any }>(
+      `${this.apiUrl}/`,
+      {
+        params: {
+          page: page.toString(),
+          size: size.toString()
+        }
+      }
+    );
   }
 
   /**
