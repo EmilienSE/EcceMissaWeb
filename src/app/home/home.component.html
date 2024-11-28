@@ -1,6 +1,6 @@
-<app-header></app-header>
+<app-header (toggleMenu)="toggleSidebar()"></app-header>
 <div class="main-container">
-    <app-sidebar></app-sidebar>
+    <app-sidebar [isSidebarOpen]="activeMenu" (closeMenu)="toggleSidebar()"></app-sidebar>
     <div class="main-router">
         <router-outlet></router-outlet>
     </div>

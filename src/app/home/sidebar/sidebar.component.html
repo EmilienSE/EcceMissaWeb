@@ -1,8 +1,10 @@
-<div class="sidebar em-block">
+<div class="sidebar em-block" [class.open]="isSidebarOpen">
     <nav class="sidebar-container">
-        <a class="nav-link em-btn" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><img src="assets/img/livre.svg" alt="Mes feuillets">Mes feuillets</a>
-        <a class="nav-link em-btn" routerLink="/paroisse" routerLinkActive="active"><img src="assets/img/communaute.svg" alt="Ma paroisse">Ma paroisse</a>
-        <a class="nav-link em-btn" routerLink="/diocese" routerLinkActive="active"><img src="assets/img/croix.svg" alt="Mon diocèse">Mon diocèse</a>
-        <a class="nav-link em-btn" routerLink="/compte" routerLinkActive="active"><img src="assets/img/roue.svg" alt="Mon compte">Mon compte</a>
+        <div class="em-btn close" (click)="closeSidebar()"><img src="assets/img/close.svg" alt="Fermer"></div>
+        <a class="nav-link em-btn" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeSidebar()"><img src="assets/img/livre.svg" alt="Mes feuillets">Mes feuillets</a>
+        <a class="nav-link em-btn" routerLink="/paroisse" routerLinkActive="active" (click)="closeSidebar()"><img src="assets/img/communaute.svg" alt="Ma paroisse">Ma paroisse</a>
+        <a class="nav-link em-btn" routerLink="/diocese" routerLinkActive="active" (click)="closeSidebar()"><img src="assets/img/croix.svg" alt="Mon diocèse">Mon diocèse</a>
+        <a class="nav-link em-btn" routerLink="/compte" routerLinkActive="active" (click)="closeSidebar()"><img src="assets/img/roue.svg" alt="Mon compte">Mon compte</a>
+        <a class="nav-link em-btn danger logout" (click)="logout()"><img src="assets/img/logout.svg" alt="Déconnexion">Déconnexion</a>
     </nav>
 </div>

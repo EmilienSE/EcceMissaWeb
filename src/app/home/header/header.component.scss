@@ -41,4 +41,34 @@
             }
         }
     }
+    .menu-container {
+        display: none;
+
+        & > img {
+            max-height: 90%;
+            margin-left: 1em;
+            cursor: pointer;
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .header {
+        .logo-container {
+            font-size: .8em;
+            & > img {
+                max-height: 80%;
+            }
+        }
+        .user-container {
+            display: none;
+        }
+        .menu-container {
+            padding: 1em 2em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
 }

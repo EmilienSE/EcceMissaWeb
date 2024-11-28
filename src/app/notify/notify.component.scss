@@ -45,4 +45,23 @@
     from { opacity: 1; }
     to { opacity: 0; }
   }
-  
+
+  @media (max-width: 768px) {
+    .notify-wrapper {
+      top: 5px; 
+      right: 5px; 
+      max-width: 98%;
+
+      .notify {
+        flex-direction: row;
+
+        .text { 
+          flex-shrink: 1;
+          font-size: clamp(12px, 2vw, 20px);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }

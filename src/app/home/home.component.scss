@@ -13,3 +13,16 @@
         margin: 0 1em;
     }
 }
+
+
+@media (max-width: 768px) {
+    .main-container {
+        app-sidebar {
+            flex: 0;
+            margin: 0;
+        }
+        .main-router {
+            margin: 0;
+        }
+    }
+}

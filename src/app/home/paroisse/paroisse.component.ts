@@ -28,7 +28,7 @@ export class ParoisseComponent implements OnInit {
   billingPortalLink: string;
   error: string;
 
-  constructor(private modalService: ModalService, private paroisseService: ParoisseService, private notifyService: NotifyService){}
+  constructor(private modalService: ModalService, private paroisseService: ParoisseService){}
 
   ngOnInit(): void {
     this.isLoading = true;

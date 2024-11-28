@@ -11,9 +11,44 @@
             vertical-align: middle;
             text-decoration: none;
         }
+
+        .close, .logout {
+            display: none;
+        }
     }
 
     &.em-block {
         min-height: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    .sidebar {
+      position: absolute;
+      z-index: 99;
+      top: 0;
+      left: -100%;
+      transition:all 200ms ease-in-out;
+      
+      &.open {
+        left: 0;
+      }
+
+      &-container {
+        .close {
+            display: block;
+            padding: 1em;
+            margin-bottom: .7em;
+            width: fit-content;
+            align-self: end;
+
+            & > img {
+                margin: 0;
+            }
+        }
+        .logout {
+            display: block;
+        }
+      }
+    }
+  }

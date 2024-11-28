@@ -15,7 +15,7 @@
                     @for (feuillet of feuillets; track feuillet.id){
                         <div class="em-btn feuillet-btn" (click)="openFeuillet(feuillet.id, $event)">
                             <span class="feuillet-txt">
-                                Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.egliseName}}
+                                Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.paroisse}}
                             </span>
                             <div class="feuillet-indicators">
                                 <img src="assets/img/oeil.svg" alt="">

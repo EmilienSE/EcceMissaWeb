@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UtilisateurService } from '../../services/utilisateur/utilisateur.service';
 import { Utilisateur } from '../../models/utilisateur';
 import { AuthService } from '../../services/auth/auth.service';
@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class HeaderComponent implements OnInit{
   utilisateur: Utilisateur;
+  @Output() toggleMenu = new EventEmitter<boolean>();
 
   constructor(
     private utilisateurService: UtilisateurService,
@@ -33,4 +34,7 @@ export class HeaderComponent implements OnInit{
     this.authService.logout();
   }
 
+  toggleSidebar() {
+    this.toggleMenu.emit(true);
+  }
 }
