@@ -2,9 +2,11 @@
     <div class="feuillets-container">
         <div class="feuillets-title">
             <h2>Mes derniers feuillets</h2>
-            <div class="add-button em-btn" (click)="openAddModal()">
-                <img src="assets/img/plus.svg" alt="Ajouter un feuillet">
-            </div>
+            @if(!isLoading && !error) {
+                <div class="add-button em-btn" (click)="openAddModal()">
+                    <img src="assets/img/plus.svg" alt="Ajouter un feuillet">
+                </div>
+            }
         </div>
         @if (isLoading){
             <app-em-loader></app-em-loader>
@@ -25,7 +27,7 @@
                             </div>
                         </div>
                     }
-                } @else if(!isLoading) {
+                } @else if(!isLoading && !error) {
                     <h3>Aucun feuillet téléchargé pour le moment</h3>
                     <div class="add-btn">
                         <div class="em-btn add-btn" (click)="openAddModal()">
