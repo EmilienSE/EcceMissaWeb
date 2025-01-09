@@ -7,7 +7,9 @@
     <div class="user-container">
         <div class="text-container">
             <div class="welcome">Bienvenue,</div>
-            <div class="name">{{utilisateur.prenom}} {{utilisateur.nom}}</div>
+            @if (utilisateur){
+                <div class="name">{{utilisateur.prenom}} {{utilisateur.nom}}</div>
+            }
         </div>
         <img src="assets/img/logout.png" (click)="logout()" title="Me déconnecter" alt="Me déconnecter">
     </div>
