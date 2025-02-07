@@ -32,4 +32,4 @@ jobs:
           password: ${{ secrets.OVH_SSH_PASSWORD }}
           source: "dist/recette"  # Remplace par le bon chemin
           target: "/home/eccemiz/testapp"
-          strip_components: 1
+          strip_components: 2
