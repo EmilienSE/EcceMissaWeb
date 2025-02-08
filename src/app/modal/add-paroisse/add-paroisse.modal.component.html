@@ -42,7 +42,13 @@
                     <select name="diocese" id="diocese" class="em-input" [formControlName]="'diocese_id'">
                         <option *ngFor="let diocese of dioceses" [value]="diocese.id">{{diocese.nom}}</option>
                     </select>
-                </div>         
+                </div>
+                <div class="form-group">
+                    <label for="acceptCgvCgu">
+                        <input type="checkbox" id="acceptCgvCgu" [formControlName]="'acceptCgvCgu'">
+                        J'accepte les <a href="/cgv" target="_blank">conditions générales de vente</a> et les <a href="/cgu" target="_blank">conditions générales d'utilisation</a>.
+                    </label>
+                </div>   
             </form>
             <div class="modal-footer">
                 @if(paying()) {

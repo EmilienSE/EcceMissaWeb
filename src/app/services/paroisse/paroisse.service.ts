@@ -39,6 +39,7 @@ export class ParoisseService {
     formData.append('nom', paroisseData.nom);
     formData.append('gps', paroisseData.gps);
     formData.append('diocese_id', paroisseData.diocese_id);
+    if (paroisseData.acceptCgvCgu) formData.append('acceptCgvCgu', paroisseData.acceptCgvCgu.toString());
     return this.http.post<{ paroisse: Paroisse, code_unique: string }>(this.apiUrl, formData);
   }
 
