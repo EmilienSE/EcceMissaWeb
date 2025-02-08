@@ -24,12 +24,25 @@ jobs:
       - name: Build Angular app
         run: npm run build:recette
 
+      - name: Archive files
+        run: tar -cvzf dist.tar.gz -C dist/recette .
+
       - name: Deploy via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.OVH_SSH_HOST }}
           username: ${{ secrets.OVH_SSH_USER }}
           password: ${{ secrets.OVH_SSH_PASSWORD }}
-          source: "dist/recette"  # Remplace par le bon chemin
+          source: "dist.tar.gz"
           target: "/home/eccemiz/testapp"
-          strip_components: 2
+
+      - name: Extract files on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.OVH_SSH_HOST }}
+          username: ${{ secrets.OVH_SSH_USER }}
+          password: ${{ secrets.OVH_SSH_PASSWORD }}
+          script: |
+            cd /home/eccemiz/testapp
+            tar -xvzf dist.tar.gz
+            rm dist.tar.gz
