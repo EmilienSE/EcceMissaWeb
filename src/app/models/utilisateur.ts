@@ -32,3 +32,13 @@ export interface InscriptionData {
   password: string;
   confirm_password: string;
 }
+
+export interface ForgotPasswordData {
+  email: string;
+}
+
+export interface ResetPasswordData {
+  token: string;
+  password: string;
+  confirm_password: string;
+}
