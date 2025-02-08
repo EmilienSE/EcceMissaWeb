@@ -20,6 +20,7 @@ export interface ParoisseData {
     nom: string;
     gps: string;
     diocese_id: string;
+    acceptCgvCgu?: boolean;
 }
 
 export interface JoinParoisseData {

@@ -26,6 +26,12 @@
                 <label for="confirm_password">Confirmation de mot de passe :</label>
                 <input type="password" name="confirm_password" id="confirm_password" class="em-input" [formControlName]="'confirm_password'">
             </div>
+            <div class="form-group">
+                <label for="termsAccepted">
+                    <input type="checkbox" name="termsAccepted" id="termsAccepted" [formControlName]="'termsAccepted'">
+                    J'accepte les <a routerLink="/cgu" target="_blank">conditions générales d'utilisation</a>.
+                </label>
+            </div>
             <button class="em-btn success" [disabled]="!inscriptionForm.valid" (click)="submitForm().subscribe()">
                 @if (isLoading){
                         <app-em-loader [size]="Size.Small"></app-em-loader>

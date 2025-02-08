@@ -31,7 +31,8 @@ export class AddParoisseModalComponent implements OnInit {
   addParoisseForm: FormGroup = this.fb.group<Formify<ParoisseData>>({
     nom: [null, Validators.required],
     gps: [null],
-    diocese_id: [null, Validators.required]
+    diocese_id: [null, Validators.required],
+    acceptCgvCgu: [false, Validators.requiredTrue]
   });
   dioceses: Diocese[];
   paroisseID: string;

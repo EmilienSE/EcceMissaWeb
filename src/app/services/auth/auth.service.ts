@@ -50,6 +50,7 @@ export class AuthService {
     formData.append('prenom', inscriptionData.prenom);
     formData.append('nom', inscriptionData.nom);
     formData.append('password', inscriptionData.password);
+    formData.append('termsAccepted', inscriptionData.termsAccepted.toString());
     return this.http.post<any>(`${this.apiUrl}inscription`, formData).pipe(
       tap(() => {
         this.notifyService.open('Votre compte a bien été créé. Redirection en cours.', 'success', 5000);
@@ -91,6 +92,29 @@ export class AuthService {
       }),
       catchError((err) => {
         return throwError(() => err);
+      })
+    );
+  }
+
+  recoverPassword(forgotPasswordData: any): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('email', forgotPasswordData.email);
+    return this.http.post<any>(`${this.apiUrl}password-reset/request`, formData).pipe(
+      tap(() => {
+        this.notifyService.open('Si votre adresse existe dans notre base, un email de réinitialisation de mot de passe vous a été envoyé.', 'success', 10000);
+      })
+    );
+  }
+
+  resetPassword(resetPasswordData: any): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('token', resetPasswordData.token);
+    formData.append('password', resetPasswordData.password);
+    formData.append('confirm_password', resetPasswordData.confirm_password);
+    return this.http.post<any>(`${this.apiUrl}password-reset/reset`, formData).pipe(
+      tap(() => {
+        this.notifyService.open('Votre mot de passe a bien été réinitialisé. Vous pouvez maintenant vous connecter.', 'success', 10000);
+        this.router.navigate(['/connexion']);
       })
     );
   }

@@ -1,30 +1,24 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Formify } from '../utils/formify.utils';
-import { InscriptionData } from '../models/utilisateur';
+import { ForgotPasswordData } from '../models/utilisateur';
 import { AuthService } from '../services/auth/auth.service';
 import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { EmLoaderComponent } from '../modules/em-loader/em-loader.component';
 import { Size } from '../enums/size.enum';
-import { passwordMatchValidator } from '../utils/passwordMatch.validator';
 
 @Component({
-  selector: 'app-inscription',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: [ReactiveFormsModule, EmLoaderComponent, RouterLink],
-  templateUrl: './inscription.component.html',
-  styleUrl: './inscription.component.scss'
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.scss'
 })
-export class InscriptionComponent {
-  inscriptionForm: FormGroup = this.fb.group<Formify<InscriptionData>>({
+export class ForgotPasswordComponent {
+  forgotPasswordForm: FormGroup = this.fb.group<Formify<ForgotPasswordData>>({
     email: [null, [Validators.required, Validators.email]],
-    nom: [null, Validators.required],
-    prenom: [null, Validators.required],
-    password: [null, Validators.required],
-    confirm_password: [null, Validators.required],
-    termsAccepted: [false, Validators.requiredTrue]
-  }, { validators: passwordMatchValidator('password', 'confirm_password') });
+  });
   isLoading: boolean;
   public Size = Size;
   
@@ -38,17 +32,13 @@ export class InscriptionComponent {
         this.isLoading = true;
       }),
       switchMap(() => {
-        const inscriptionData: InscriptionData = {
-          email: this.inscriptionForm.value['email'],
-          prenom: this.inscriptionForm.value['prenom'],
-          nom: this.inscriptionForm.value['nom'],
-          password: this.inscriptionForm.value['password'],
-          confirm_password: this.inscriptionForm.value['confirm_password'],
-          termsAccepted: this.inscriptionForm.value['termsAccepted']
+        const forgotPasswordData: ForgotPasswordData = {
+          email: this.forgotPasswordForm.value['email']
         };
-        return this.authService.inscription(inscriptionData);
+        return this.authService.recoverPassword(forgotPasswordData);
       }),
       catchError((err) => {
+        this.isLoading = false;
         if (err instanceof Error) {
           console.error(err);
         }

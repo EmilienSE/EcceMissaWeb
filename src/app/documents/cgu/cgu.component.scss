@@ -1,12 +1,12 @@
-.connexion-container {
+.documents-container {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     justify-content: center;
 }
 
-.connexion-block {
-    max-width: 400px;
+.documents-block {
+    max-width: 90%;
     margin: 0 auto;
     flex-basis: 0;
     display: flex;
@@ -22,18 +22,8 @@
         }
     }
 
-    .em-input {
-        width: 350px;
-    }
-
-    
-    .em-btn {
-        width:100%;
+    .documents-content {
+        text-align: justify;
         padding: 1em;
-        justify-content: center;
-    }
-
-    p.forgot-password {
-        margin-top: 5px;
     }
 }
