@@ -9,6 +9,8 @@ import { authGuard } from './guard/auth.guard';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { CgvComponent } from './documents/cgv/cgv.component';
+import { CguComponent } from './documents/cgu/cgu.component';
 
 export const routes: Routes = [
     { 
@@ -37,5 +39,7 @@ export const routes: Routes = [
     { path: 'connexion', component: ConnexionComponent },
     { path: 'inscription', component: InscriptionComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'reset-password', component: PasswordResetComponent }
+    { path: 'reset-password', component: PasswordResetComponent },
+    { path: 'cgv', component: CgvComponent },
+    { path: 'cgu', component: CguComponent }
 ];

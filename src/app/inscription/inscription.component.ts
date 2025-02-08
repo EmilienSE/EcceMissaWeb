@@ -7,6 +7,7 @@ import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs'
 import { Router, RouterLink } from '@angular/router';
 import { EmLoaderComponent } from '../modules/em-loader/em-loader.component';
 import { Size } from '../enums/size.enum';
+import { passwordMatchValidator } from '../utils/passwordMatch.validator';
 
 @Component({
   selector: 'app-inscription',
@@ -22,7 +23,8 @@ export class InscriptionComponent {
     prenom: [null, Validators.required],
     password: [null, Validators.required],
     confirm_password: [null, Validators.required],
-  });
+    termsAccepted: [false, Validators.requiredTrue]
+  }, { validators: passwordMatchValidator('password', 'confirm_password') });
   isLoading: boolean;
   public Size = Size;
   
@@ -41,7 +43,8 @@ export class InscriptionComponent {
           prenom: this.inscriptionForm.value['prenom'],
           nom: this.inscriptionForm.value['nom'],
           password: this.inscriptionForm.value['password'],
-          confirm_password: this.inscriptionForm.value['confirm_password']
+          confirm_password: this.inscriptionForm.value['confirm_password'],
+          termsAccepted: this.inscriptionForm.value['termsAccepted']
         };
         return this.authService.inscription(inscriptionData);
       }),

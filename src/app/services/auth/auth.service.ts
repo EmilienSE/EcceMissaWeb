@@ -50,6 +50,7 @@ export class AuthService {
     formData.append('prenom', inscriptionData.prenom);
     formData.append('nom', inscriptionData.nom);
     formData.append('password', inscriptionData.password);
+    formData.append('termsAccepted', inscriptionData.termsAccepted.toString());
     return this.http.post<any>(`${this.apiUrl}inscription`, formData).pipe(
       tap(() => {
         this.notifyService.open('Votre compte a bien été créé. Redirection en cours.', 'success', 5000);

@@ -31,6 +31,7 @@ export interface InscriptionData {
   email: string;
   password: string;
   confirm_password: string;
+  termsAccepted: boolean;
 }
 
 export interface ForgotPasswordData {
