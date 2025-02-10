@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalService } from '../../modal.service';
 import { CommonModule } from '@angular/common';
 import { Formify } from '../../utils/formify.utils';
@@ -10,14 +10,7 @@ import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 import { DioceseService } from '../../services/diocese/diocese.service';
 import { Diocese } from '../../models/diocese';
 
-import { PaymentIntentResult, StripeElementsOptions, StripeEmbeddedCheckoutOptions } from '@stripe/stripe-js';
-import {
-  injectStripe,
-  StripeElementsDirective,
-  StripePaymentElementComponent,
-} from 'ngx-stripe';
-
-import { PaymentData, PaymentIntent, PaymentMethod } from '../../models/payment';
+import { PaymentIntent } from '../../models/payment';
 
 @Component({
   selector: 'app-add-paroisse.modal',
@@ -25,41 +18,29 @@ import { PaymentData, PaymentIntent, PaymentMethod } from '../../models/payment'
   imports: [
     ReactiveFormsModule, 
     CommonModule, 
-    StripeElementsDirective,
-    StripePaymentElementComponent,
-    EmLoaderComponent
+    EmLoaderComponent,
+    FormsModule
   ],
   templateUrl: './add-paroisse.modal.component.html',
   styleUrl: './add-paroisse.modal.component.scss'
 })
 export class AddParoisseModalComponent implements OnInit {
   
-  @ViewChild(StripePaymentElementComponent) paymentElement!: StripePaymentElementComponent;
   isLoading: boolean = false;
-  readonly stripe = injectStripe("pk_test_51PlTDhE8TPrVnm48pxcrEjJ4SQ7V5ZTRX4V4EqIDDhYV7y7N7CWoxtuzcLc6f8JkPrpLLW2FkMkopaQLSlnsA3eB008CtIeVUn");
 
   addParoisseForm: FormGroup = this.fb.group<Formify<ParoisseData>>({
     nom: [null, Validators.required],
     gps: [null],
-    diocese_id: [null, Validators.required]
+    diocese_id: [null, Validators.required],
+    acceptCgvCgu: [false, Validators.requiredTrue]
   });
   dioceses: Diocese[];
-  paymentIntentId: string;
-  PaymentMethod = PaymentMethod;
-  method: PaymentMethod;
-  checkoutForm = this.fb.group({
-    name: ['Ricardo', [Validators.required]],
-    email: ['support@ngx-stripe.dev', [Validators.required]],
-    address: ['Av. Ramon Nieto 313B 2D', [Validators.required]],
-    zipcode: ['36205', [Validators.required]],
-    city: ['Vigo', [Validators.required]],
-    amount: [2500, [Validators.required, Validators.pattern(/\d+/)]],
-  });
   paroisseID: string;
   
   paying = signal(false);
-  stripeSessionId: string;
   paymentLink: string;
+
+  selectedPlan: string;
 
   constructor(
     private fb: FormBuilder, 
@@ -80,6 +61,19 @@ export class AddParoisseModalComponent implements OnInit {
     this.modalService.close();
   }
 
+  selectPlan(plan: string) {
+    this.selectedPlan = plan;
+  }
+
+  getPrice(plan: string): number {
+    switch(plan) {
+      case 'monthly': return 12.00;
+      case 'quarterly': return 34.00;
+      case 'yearly': return 120.00;
+      default: return 120.00;
+    }
+  }
+
   submitFormParoisse(): Observable<PaymentIntent> {
     return of(undefined).pipe(
       tap(() => {
@@ -95,13 +89,11 @@ export class AddParoisseModalComponent implements OnInit {
         }
       }),
       catchError((err) => {
-        if (err instanceof Error) {
-          console.error(err);
-        }
+        console.error(err);
         return throwError(() => err);
       }),
       switchMap(() => {
-        return this.paroisseService.createPaymentIntent(this.paroisseID);
+        return this.paroisseService.createPaymentIntent(this.paroisseID, this.selectedPlan);
       }),
       tap((paymentIntent: PaymentIntent) => {
         this.paymentLink = paymentIntent.paymentLink;

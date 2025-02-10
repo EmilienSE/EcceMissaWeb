@@ -27,7 +27,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/.htaccess"
             ],
             "styles": [
               "src/styles.scss"
@@ -48,12 +49,27 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environment/environment.ts",
+                  "with": "src/environment/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "recette": {
+              "outputPath": "dist/recette",
+              "fileReplacements": [
+                {
+                  "replace": "src/environment/environment.ts",
+                  "with": "src/environment/environment.recette.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -66,6 +82,9 @@
             },
             "development": {
               "buildTarget": "app:build:development"
+            },
+            "recette": {
+              "buildTarget": "app:build:recette"
             }
           },
           "defaultConfiguration": "development"

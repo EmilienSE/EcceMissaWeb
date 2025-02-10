@@ -39,6 +39,7 @@ export class ParoisseService {
     formData.append('nom', paroisseData.nom);
     formData.append('gps', paroisseData.gps);
     formData.append('diocese_id', paroisseData.diocese_id);
+    if (paroisseData.acceptCgvCgu) formData.append('acceptCgvCgu', paroisseData.acceptCgvCgu.toString());
     return this.http.post<{ paroisse: Paroisse, code_unique: string }>(this.apiUrl, formData);
   }
 
@@ -88,9 +89,10 @@ export class ParoisseService {
    * Création d'une intention de paiement
    * @returns lien de paiement
    */
-  createPaymentIntent(id: string): Observable<PaymentIntent> {
+  createPaymentIntent(id: string, price: string): Observable<PaymentIntent> {
     const formData: FormData = new FormData();
     formData.append('paroisse_id', id);
+    formData.append('price', price);
     return this.http.post<PaymentIntent>(`${this.apiUrl}/paymentIntent`, formData);
   }
   
