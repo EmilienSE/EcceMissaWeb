@@ -1,9 +1,9 @@
-name: Deploy to Master
+name: Deploy to Recette
 
 on:
   push:
     branches:
-      - main
+      - recette  # Déclenchement sur la branche recette
 
 jobs:
   deploy:
@@ -22,10 +22,10 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build
+        run: npm run build:recette
 
       - name: Archive files
-        run: tar -cvzf dist.tar.gz -C dist/app .
+        run: tar -cvzf dist.tar.gz -C dist/recette .
 
       - name: Deploy via SSH
         uses: appleboy/scp-action@v0.1.7
@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.OVH_SSH_USER }}
           password: ${{ secrets.OVH_SSH_PASSWORD }}
           source: "dist.tar.gz"
-          target: "/home/eccemiz/app"
+          target: "/home/eccemiz/testapp"
 
       - name: Extract files on server
         uses: appleboy/ssh-action@master
@@ -43,6 +43,6 @@ jobs:
           username: ${{ secrets.OVH_SSH_USER }}
           password: ${{ secrets.OVH_SSH_PASSWORD }}
           script: |
-            cd /home/eccemiz/app
+            cd /home/eccemiz/testapp
             tar -xvzf dist.tar.gz
             rm dist.tar.gz
