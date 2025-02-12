@@ -23,6 +23,10 @@ export interface ParoisseData {
     acceptCgvCgu?: boolean;
 }
 
+export interface RetryPaymentData {
+    acceptCgvCgu?: boolean;
+}
+
 export interface JoinParoisseData {
     codeUnique: string;
 }

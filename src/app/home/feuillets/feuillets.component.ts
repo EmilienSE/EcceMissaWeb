@@ -9,9 +9,7 @@ import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 import { EditFeuilletModalComponent } from '../../modal/edit-feuillet/edit-feuillet.modal.component';
 import { DeleteFeuilletModalComponent } from '../../modal/delete-feuillet/delete-feuillet.modal.component';
 import { modalOptions } from '../../utils/modalOptions.utils';
-import { finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { ParoisseService } from '../../services/paroisse/paroisse.service';
-import { PaymentIntent } from '../../models/payment';
 import { Paroisse } from '../../models/paroisse';
 import { RouterLink } from '@angular/router';
 @Component({
@@ -117,30 +115,5 @@ export class FeuilletsComponent implements OnInit {
     modalRef.closed.subscribe(() => {
       this.loadFeuillets(this.currentPage);
     });
-  }
-
-  openRetryPayment(): Observable<PaymentIntent> {
-    return of(undefined).pipe(
-      tap(() => {
-        this.isLoading = true;
-      }),
-      switchMap(() => {
-        return this.paroisseService.getUserParoisse();
-      }),
-      tap((paroisse: Paroisse) => {
-        this.paroisse = paroisse;
-        window.open(this.paymentLink, "_blank");
-      }),
-      switchMap(() => {
-        return this.paroisseService.retryPayment(this.paroisse.id);
-      }),
-      tap((paymentIntent: PaymentIntent) => {
-        this.paymentLink = paymentIntent.paymentLink;
-        window.open(this.paymentLink, "_blank");
-      }),
-      finalize(() => {
-        this.isLoading = false;
-      })
-    );
   }
 }

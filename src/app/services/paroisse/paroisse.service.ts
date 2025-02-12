@@ -100,8 +100,11 @@ export class ParoisseService {
    * Régularisation de paiement
    * @returns lien de paiement
    */
-  retryPayment(id: number): Observable<PaymentIntent> {
-    return this.http.post<PaymentIntent>(`${this.apiUrl}/${id}/retry_payment`, {});
+  retryPayment(id: string, price: string): Observable<PaymentIntent> {
+    const formData: FormData = new FormData();
+    formData.append('paroisse_id', id);
+    formData.append('price', price);
+    return this.http.post<PaymentIntent>(`${this.apiUrl}/retry_payment`, formData);
   }
 
   /**

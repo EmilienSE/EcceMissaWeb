@@ -30,7 +30,9 @@
                                 <p class="em-btn" (click)="openBillingPortal().subscribe()">Accéder au portail client</p>
                             </div>
                         } @else {
-                            <span class="em-btn danger" (click)="openRetryPayment().subscribe()">A régulariser</span>
+                            <div class="paroisse-btn">
+                                <span class="em-btn danger" (click)="openRetryPaymentModal()">A régulariser</span>
+                            </div>
                         }
                     </p>
                     <p>Code unique : <strong>{{paroisse.code_unique}}</strong></p>

@@ -11,7 +11,7 @@ import { finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { BillingPortal, PaymentIntent } from '../../models/payment';
 import { EditParoisseModalComponent } from '../../modal/edit-paroisse/edit-paroisse.modal.component';
 import { modalOptions } from '../../utils/modalOptions.utils';
-import { NotifyService } from '../../notify.service';
+import { RetryPaymentModalComponent } from '../../modal/retry-payment/retry-payment.modal.component';
 
 
 @Component({
@@ -146,22 +146,25 @@ export class ParoisseComponent implements OnInit {
     });
   }
 
-  openRetryPayment(): Observable<PaymentIntent> {
-    return of(undefined).pipe(
-      tap(() => {
-        this.isLoading = true;
-      }),
-      switchMap(() => {
-        return this.paroisseService.retryPayment(this.paroisse.id);
-      }),
-      tap((paymentIntent: PaymentIntent) => {
-        this.paymentLink = paymentIntent.paymentLink;
-        window.open(this.paymentLink, "_blank");
-      }),
-      finalize(() => {
-        this.isLoading = false;
-      })
-    );
+  openRetryPaymentModal() {
+    const modalRef = this.modalService.open(RetryPaymentModalComponent, modalOptions, {paroisseId: this.paroisse.id});
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
+      });
+    });
   }
 
   openBillingPortal(): Observable<BillingPortal> {
