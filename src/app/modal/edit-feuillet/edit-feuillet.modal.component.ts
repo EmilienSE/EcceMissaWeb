@@ -6,10 +6,6 @@ import { FeuilletService } from '../../services/feuillet/feuillet.service';
 import { Feuillet, FeuilletData } from '../../models/feuillet';
 import { Formify } from '../../utils/formify.utils';
 import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
-import { ParoisseService } from '../../services/paroisse/paroisse.service';
-import { Paroisse } from '../../models/paroisse';
-import { Eglise } from '../../models/eglise';
-import { EgliseService } from '../../services/eglise/eglise.service';
 import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 
 @Component({
@@ -22,7 +18,6 @@ import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 export class EditFeuilletModalComponent implements OnInit {
   feuilletFile!: File | null | undefined;
   isLoading: boolean = false;
-  paroisses: Paroisse[];
   fileName: string | undefined;
   @Input() data: any;
 
@@ -35,20 +30,15 @@ export class EditFeuilletModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     public modalService: ModalService, 
-    private feuilletService: FeuilletService,
-    private paroisseService: ParoisseService,
-    private egliseService: EgliseService
+    private feuilletService: FeuilletService
   ){}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.feuilletService.getFeuilletById(this.modalService.data.feuilletId).subscribe((feuillet: Feuillet) => {
-      this.paroisseService.getParoisses().subscribe((paroisses: Paroisse[]) => {
-        this.paroisses = paroisses;
-        this.editFeuilletForm.controls['celebration_date'].setValue(feuillet.celebrationDate);
-        this.editFeuilletForm.controls['paroisse_id'].setValue(feuillet.paroisse);
-        this.isLoading = false;
-      });
+      this.editFeuilletForm.controls['celebration_date'].setValue(new Date(feuillet.celebrationDate).toLocaleString('sv-SE', { timeZoneName: 'short' }).replace(' ', 'T').slice(0, 16));
+      this.editFeuilletForm.controls['paroisse_id'].setValue(feuillet.paroisse);
+      this.isLoading = false;
     })
   }
 
