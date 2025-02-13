@@ -19,3 +19,9 @@ export interface FeuilletData {
     paroisse_id: string;
     feuillet: File;
 }
+
+export interface FeuilletView {
+    feuillet_id: number;
+    paroisse_id: number;
+    viewed_at: Date;
+}

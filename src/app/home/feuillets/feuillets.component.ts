@@ -12,6 +12,7 @@ import { modalOptions } from '../../utils/modalOptions.utils';
 import { ParoisseService } from '../../services/paroisse/paroisse.service';
 import { Paroisse } from '../../models/paroisse';
 import { RouterLink } from '@angular/router';
+import { FeuilletStatsModalComponent } from '../../modal/feuillet-stats/feuillet-stats.modal.component';
 @Component({
   selector: 'app-feuillets',
   standalone: true,
@@ -112,6 +113,15 @@ export class FeuilletsComponent implements OnInit {
   editFeuillet(feuilletId: number, event: Event) {
     event.stopPropagation();
     const modalRef = this.modalService.open(EditFeuilletModalComponent, modalOptions, {feuilletId});
+    modalRef.closed.subscribe(() => {
+      this.loadFeuillets(this.currentPage);
+    });
+  }
+
+  
+  openStatsModal(feuilletId: number, celebration_date: string, event: Event) {
+    event.stopPropagation();
+    const modalRef = this.modalService.open(FeuilletStatsModalComponent, modalOptions, {feuilletId, celebration_date});
     modalRef.closed.subscribe(() => {
       this.loadFeuillets(this.currentPage);
     });

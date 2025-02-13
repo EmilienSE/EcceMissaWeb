@@ -103,4 +103,13 @@ export class FeuilletService {
    getFeuilletById(id: number): Observable<Feuillet> {
     return this.http.get<Feuillet>(`${this.apiUrl}/${id}`);
   }
+
+  /**
+   * Récupérer les stats d'un feuillet par son ID
+   * @param id
+   * @returns FeuilletView[]
+   */
+  getFeuilletStats(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}/stats`);
+  }
 }

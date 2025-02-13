@@ -20,10 +20,10 @@
                                 Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.paroisse}}
                             </span>
                             <div class="feuillet-indicators">
-                                <img src="assets/img/oeil.svg" alt="">
+                                <img src="assets/img/oeil.svg" alt="Voir le nombre de vues du feuillet" (click)="openStatsModal(feuillet.id, feuillet.celebrationDate, $event)">
                                 <div class="indicator-views">{{feuillet.viewCount}}</div>
-                                <img src="assets/img/edit.svg" alt="" (click)="editFeuillet(feuillet.id, $event)">
-                                <img src="assets/img/trash.svg" alt="" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
+                                <img src="assets/img/edit.svg" alt="Modifier le feuillet" (click)="editFeuillet(feuillet.id, $event)">
+                                <img src="assets/img/trash.svg" alt="Supprimer le feuillet" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
                             </div>
                         </div>
                     }

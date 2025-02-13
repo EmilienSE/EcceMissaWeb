@@ -1,0 +1,13 @@
+<div class="modal-header">
+    @if (!isLoading){
+        <h2>Statistique du feuillet de {{moment(feuilletDate).format('dddd DD/MM/YYYY')}}</h2>
+    }
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+<div class="modal-body">
+    <canvas id="viewsChart"></canvas>
+</div>
+<div class="modal-footer">
+    <button class="em-btn" (click)="modalService.close()"><span>Fermer</span></button>
+</div>
+
