@@ -20,7 +20,7 @@ import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 export class AddFeuilletModalComponent implements OnInit {
   feuilletFile!: File | null | undefined;
   isLoading: boolean = false;
-  paroisses: Paroisse[];
+  paroisse: Paroisse;
   fileName: string | undefined;
 
   addFeuilletForm: FormGroup = this.fb.group<Formify<FeuilletData>>({
@@ -38,8 +38,8 @@ export class AddFeuilletModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.paroisseService.getParoisses().subscribe((paroisses: Paroisse[]) => {
-      this.paroisses = paroisses;
+    this.paroisseService.getUserParoisse().subscribe((paroisse: Paroisse) => {
+      this.addFeuilletForm.controls['paroisse_id'].setValue(paroisse.id);
       this.isLoading = false;
     });
   }

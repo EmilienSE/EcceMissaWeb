@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h2>Régulariser le paiement</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    @if(!paymentLink){
+        <p>Choisissez la formule qui vous convient pour accéder à Ecce Missa. <br>Profitez d'un abonnement mensuel flexible, ou économisez en optant pour un paiement trimestriel ou annuel.</p>
+
+        <div class="pricing-container">
+            <div class="pricing-card" [class.selected]="selectedPlan === 'monthly'" (click)="selectPlan('monthly')">
+                <h3>MENSUEL</h3>
+                <div class="price">€ 12.00</div>
+                <p>Par mois</p>
+                <p class="description">Paiement flexible, idéal pour tester.</p>
+            </div>
+        
+            <div class="pricing-card" [class.selected]="selectedPlan === 'quarterly'" (click)="selectPlan('quarterly')">
+                <h3>TRIMESTRIEL</h3>
+                <div class="price">€ 34.00</div>
+                <p>Tous les trois mois</p>
+                <p class="description">Économisez <strong>2€</strong> tous les 3 mois !</p>
+            </div>
+        
+            <div class="pricing-card" [class.selected]="selectedPlan === 'yearly'" (click)="selectPlan('yearly')">
+                <h3>ANNUEL</h3>
+                <div class="price">€ 120.00</div>
+                <p>Par an</p>
+                <p class="description">Économisez <strong>24€</strong> par an (soit 2 mois offerts) !</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            @if(paying()) {
+                <app-em-loader></app-em-loader>
+            } @else {
+                <button class="em-btn" (click)="modalService.close()"><span>Annuler</span></button>
+                <button class="em-btn success" [disabled]="!selectedPlan" (click)="submitRetryPaymentForm().subscribe()"><span>Procéder au paiement de {{ getPrice(selectedPlan).toFixed(2) }} €</span></button>
+            }
+        </div>
+    }
+}
+

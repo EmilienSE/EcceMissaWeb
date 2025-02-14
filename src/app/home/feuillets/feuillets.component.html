@@ -17,13 +17,13 @@
                     @for (feuillet of feuillets; track feuillet.id){
                         <div class="em-btn feuillet-btn" (click)="openFeuillet(feuillet.id, $event)">
                             <span class="feuillet-txt">
-                                Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY')}} - {{feuillet.paroisse}}
+                                Feuillet du {{moment(feuillet.celebrationDate).format('dddd DD/MM/YYYY HH:mm')}} - {{feuillet.paroisse}}
                             </span>
                             <div class="feuillet-indicators">
-                                <img src="assets/img/oeil.svg" alt="">
+                                <img src="assets/img/oeil.svg" alt="Voir le nombre de vues du feuillet" (click)="openStatsModal(feuillet.id, feuillet.celebrationDate, $event)">
                                 <div class="indicator-views">{{feuillet.viewCount}}</div>
-                                <img src="assets/img/edit.svg" alt="" (click)="editFeuillet(feuillet.id, $event)">
-                                <img src="assets/img/trash.svg" alt="" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
+                                <img src="assets/img/edit.svg" alt="Modifier le feuillet" (click)="editFeuillet(feuillet.id, $event)">
+                                <img src="assets/img/trash.svg" alt="Supprimer le feuillet" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
                             </div>
                         </div>
                     }
@@ -43,7 +43,7 @@
                 <p>Nous vous invitons à régulariser votre paiement afin de profiter pleinement de l'ajout et de la consultation des feuillets.</p>
                 <p>Si vous avez déjà effectué un virement SEPA, soyez assuré que votre accès sera rétabli dès la validation bancaire de l'opération.</p>
                 <div class="add-btn">
-                    <div class="em-btn add-btn success" (click)="openRetryPayment().subscribe()">
+                    <div class="em-btn add-btn danger" routerLink="/paroisse">
                         Régulariser le paiement
                     </div>
                 </div>
