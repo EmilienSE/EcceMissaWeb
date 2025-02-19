@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { JoinParoisseData, Paroisse, ParoisseData } from '../../models/paroisse';
 import { environment } from '../../../environment/environment';
 import { BillingPortal, PaymentData, PaymentIntent } from '../../models/payment';
+import { Utilisateur } from '../../models/utilisateur';
 
 @Injectable({
   providedIn: 'root'
@@ -145,5 +146,36 @@ export class ParoisseService {
     if (endDate) params.end_date = endDate;
 
     return this.http.get<any[]>(`${this.apiUrl}/${paroisseId}/feuilletviews`, { params });
+  }
+
+  /**
+   * Récupération des utilisateurs d'une paroisse
+   * @returns Paroisse
+   */
+  getParoisseUsers(): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(`${this.apiUrl}/utilisateurs`);
+  }
+
+  /**
+   * Changer les droits d'un utilisateur
+   * @param paroisseId Identifiant de la paroisse
+   * @param userId Identifiant de l'utilisateur
+   * @param roles Nouveaux rôles de l'utilisateur
+   * @returns Message de confirmation
+   */
+  changerDroitsUtilisateur(paroisseId: number, userId: number, roles: string[]): Observable<{ message: string }> {
+    const formData: FormData = new FormData();
+    formData.append('roles', JSON.stringify(roles));
+    return this.http.post<{ message: string }>(`${this.apiUrl}/${paroisseId}/utilisateur/${userId}/changer_droits`, formData);
+  }
+
+  /**
+   * Supprimer un responsable de la paroisse
+   * @param paroisseId Identifiant de la paroisse
+   * @param userId Identifiant de l'utilisateur
+   * @returns Message de confirmation
+   */
+  supprimerResponsable(paroisseId: number, userId: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${paroisseId}/utilisateur/${userId}/supprimer`);
   }
 }

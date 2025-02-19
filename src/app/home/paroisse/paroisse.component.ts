@@ -20,6 +20,7 @@ import { DownloadQrCodeModalComponent } from '../../modal/download-qrcode/downlo
 import { AddFeuilletModalComponent } from '../../modal/add-feuillet/add-feuillet.modal.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { ManageUsersModalComponent } from '../../modal/manage-users/manage-users.modal.component';
 
 
 @Component({
@@ -178,6 +179,7 @@ export class ParoisseComponent implements OnInit {
       this.paroisseService.getUserParoisse().subscribe({
         next: (paroisse: Paroisse) => {
           this.paroisse = paroisse;
+          this.loadFeuilletViews();
           this.isLoading = false;
         },
         error: (error) => {
@@ -199,6 +201,7 @@ export class ParoisseComponent implements OnInit {
       this.paroisseService.getUserParoisse().subscribe({
         next: (paroisse: Paroisse) => {
           this.paroisse = paroisse;
+          this.loadFeuilletViews();
           this.isLoading = false;
         },
         error: (error) => {
@@ -220,6 +223,7 @@ export class ParoisseComponent implements OnInit {
       this.paroisseService.getUserParoisse().subscribe({
         next: (paroisse: Paroisse) => {
           this.paroisse = paroisse;
+          this.loadFeuilletViews();
           this.isLoading = false;
         },
         error: (error) => {
@@ -241,6 +245,7 @@ export class ParoisseComponent implements OnInit {
       this.paroisseService.getUserParoisse().subscribe({
         next: (paroisse: Paroisse) => {
           this.paroisse = paroisse;
+          this.loadFeuilletViews();
           this.isLoading = false;
         },
         error: (error) => {
@@ -262,6 +267,7 @@ export class ParoisseComponent implements OnInit {
       this.paroisseService.getUserParoisse().subscribe({
         next: (paroisse: Paroisse) => {
           this.paroisse = paroisse;
+          this.loadFeuilletViews();
           this.isLoading = false;
         },
         error: (error) => {
@@ -301,6 +307,7 @@ export class ParoisseComponent implements OnInit {
       this.paroisseService.getUserParoisse().subscribe({
         next: (paroisse: Paroisse) => {
           this.paroisse = paroisse;
+          this.loadFeuilletViews();
           this.isLoading = false;
         },
         error: (error) => {
@@ -341,6 +348,39 @@ export class ParoisseComponent implements OnInit {
   }
 
   openManageUserModal() {
-    throw new Error('Method not implemented.');
+    const modalRef = this.modalService.open(ManageUsersModalComponent, {
+      animations: {
+        modal: {
+          enter: 'fade-in 0.3s ease-out',
+          leave: 'fade-out 0.3s forwards',
+        },
+        overlay: {
+          enter: 'fade-in 0.6s ease-out',
+          leave: 'fade-out 0.3s forwards',
+        },
+      },
+      size: {
+        width: '40rem',
+      },
+    }, {paroisseId: this.paroisse.id});
+
+    modalRef.closed.subscribe(() => {
+      this.isLoading = true;
+      this.paroisseService.getUserParoisse().subscribe({
+        next: (paroisse: Paroisse) => {
+          this.paroisse = paroisse;
+          this.loadFeuilletViews();
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.status === 404) {
+            this.error = 'paroisse';
+          } else {
+            this.error = error.message || 'Une erreur est survenue';
+          }
+        }
+      });
+    });
   }
 }

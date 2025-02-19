@@ -4,6 +4,7 @@ export interface Utilisateur {
     prenom: string;
     email: string;
     paroisse?: string;
+    roles: string[];
 }
 export interface UtilisateurData extends Utilisateur {
     password: string

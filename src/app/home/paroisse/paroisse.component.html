@@ -74,9 +74,9 @@
                         </div>
 
                         <div class="paroisse-dashboard-item paroisse-dashboard-item--users em-block">
-                            <h3 class="paroisse-dashboard-item--users-number">{{paroisse.responsables.length}}</h3>
+                            <h3 class="paroisse-dashboard-item--users-number">{{paroisse.responsables}}</h3>
                             <div class="paroisse-dashboard-item--users-description">
-                                <p>utilisateur{{paroisse.responsables.length > 1 ? 's' : ''}} actif{{paroisse.responsables.length > 1 ? 's' : ''}} sur la paroisse.</p>
+                                <p>utilisateur{{paroisse.responsables > 1 ? 's' : ''}} actif{{paroisse.responsables > 1 ? 's' : ''}} sur la paroisse.</p>
                                 
                                 @if(getRole()?.includes('ROLE_ADMIN')){
                                     <div class="paroisse-btn">
