@@ -14,6 +14,7 @@ export interface Paroisse {
     feuillets: Feuillet[];
     paiement_a_jour: boolean;
     code_unique: string;
+    qr_code?: string;
 }
 
 export interface ParoisseData {

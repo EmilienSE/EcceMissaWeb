@@ -128,7 +128,22 @@ export class ParoisseService {
    * @param id
    * @returns URL du PDF
    */
-  generateParoissePdf(id: number): string {
-    return `${environment.API_URL}/paroisse/${id}/pdf`;
+  generateParoissePdf(id: number, type: string): string {
+    return `${environment.API_URL}/paroisse/${id}/pdf/${type}`;
+  }
+
+  /**
+   * Récupération des vues des feuillets pour une paroisse donnée
+   * @param paroisseId Identifiant de la paroisse
+   * @param startDate Date de début (optionnelle)
+   * @param endDate Date de fin (optionnelle)
+   * @returns Liste des feuillet views
+   */
+  getFeuilletViews(paroisseId: number, startDate?: string, endDate?: string): Observable<any[]> {
+    let params: any = {};
+    if (startDate) params.start_date = startDate;
+    if (endDate) params.end_date = endDate;
+
+    return this.http.get<any[]>(`${this.apiUrl}/${paroisseId}/feuilletviews`, { params });
   }
 }

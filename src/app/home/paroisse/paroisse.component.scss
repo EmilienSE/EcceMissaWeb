@@ -30,7 +30,7 @@
         } 
     }
 
-    &-list {
+    &-page {
         display: flex;
         flex-direction: column;
         max-height: 100%;
@@ -41,15 +41,99 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            margin-bottom: 1em;
-
-            .em-btn {
-                margin-left: .5em;
-            }
         }
     }
+
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1em;
+    }
+
+    &-infos {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+
+        h3, p {
+            margin: 3px 0;
+        }
+    }
+
+    &-dashboard {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px; 
+        justify-content: space-between;
+
+        &-item {
+            flex: 1 1 calc(33.333% - 16px);
+            min-width: 250px;
+            padding: .5em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+
+            p {
+                margin: 0;
+            }
+
+            &--qr-code {
+                display: flex;
+                flex-direction: row;
+                text-align: left;
     
-    &.em-block {
-        min-height: 100%;
+                img {
+                    width: 75px;
+                    height: 75px;
+                }
+            }
+
+            &--users {
+                display: flex;
+                flex-direction: row;
+                justify-content: left;
+                text-align: left;
+
+                &-number {
+                    font-size: 3.5em;
+                    margin: 0 .4em !important;
+                    font-weight: bold;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                &-description {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    flex-grow: 1;
+
+                    .em-btn {
+                        margin-top: .5em;
+                        width: 100%;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            &--stats {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+
+                .em-input {
+                    margin: .5em;
+                }
+            }
+
+            .em-btn {
+                box-shadow: 0px 5px 10px rgba(0, 42, 38, 0.1);
+            }
+        }
     }
 }

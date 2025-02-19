@@ -8,49 +8,96 @@
                 </div>
             } @else if(!isLoading && paroisse) {
                 <div class="action-btns">
-                    <div class="add-button em-btn" (click)="openEditParoisseModal()">
-                        <img src="assets/img/edit.svg" alt="Modifier paroisse">
+                    @if(getRole()?.includes('ROLE_ADMIN')){
+                        <div class="add-button em-btn" (click)="openEditParoisseModal()" title="Modifier la paroisse">
+                            <img src="assets/img/edit.svg" alt="Modifier la paroisse">
+                        </div>
+                    }
+                    <div class="add-button em-btn danger" (click)="openLeaveParoisseModal()" title="Quitter la paroisse">
+                        <img src="assets/img/logout.svg" alt="Quitter la paroisse">
                     </div>
-                    <div class="add-button em-btn" (click)="openDeleteModal()">
-                        <img src="assets/img/trash.svg" alt="Supprimer paroisse">
-                    </div>
+                    @if(getRole()?.includes('ROLE_ADMIN')){
+                        <div class="add-button em-btn danger" (click)="openDeleteModal()" title="Supprimer la paroisse">
+                            <img src="assets/img/trash.svg" alt="Supprimer la paroisse">
+                        </div>
+                    }
                 </div>
             }
         </div>
         @if (isLoading){
             <app-em-loader></app-em-loader>
         } @else {
-            <div class="paroisse-list">
+            <div class="paroisse-page">
                 @if (paroisse){
-                    <h3>{{paroisse.nom}} - <small>{{paroisse.diocese}}</small></h3>
-                    <p>Paiement : 
-                        @if(paroisse.paiement_a_jour){
-                            <span class="badge badge-success">A jour</span>
-                            <div class="paroisse-btn">
-                                <p class="em-btn" (click)="openBillingPortal().subscribe()">Accéder au portail client</p>
-                            </div>
-                        } @else {
-                            <div class="paroisse-btn">
-                                <span class="em-btn danger" (click)="openRetryPaymentModal()">A régulariser</span>
-                            </div>
-                        }
-                    </p>
-                    <p>Code unique : <strong>{{paroisse.code_unique}}</strong></p>
-                    <div class="paroisse-btn">
-                        <div class="em-btn" (click)="downloadParoisseQRCode()">
-                            Télécharger le QR Code de la paroisse
+                    <div class="paroisse-header">
+                        <div class="paroisse-infos">
+                            <h3 class="paroisse-name"><strong>{{paroisse.nom}}</strong></h3>
+                            <p class="paroisse-diocese">{{paroisse.diocese}}</p>
+                            <p class="paroisse-code">Code unique : <strong>{{paroisse.code_unique}}</strong></p>
+                        </div>
+                        <div class="paroisse-actions">
+                            @if(getRole()?.includes('ROLE_EDITOR')){
+                                <div class="em-btn" (click)="openAddFeuilletModal()">
+                                    <img src="assets/img/plus.svg" alt="Ajouter un feuillet">
+                                    <span>Ajouter un feuillet</span>
+                                </div>
+                            }
                         </div>
                     </div>
-                    <p>Utilisateur(s) liés à la paroisse :</p>
-                    <div class="paroisse-btn">
-                        @for(resp of paroisse.responsables; track resp){
-                            <span class="badge">{{resp}}</span>
+
+                    <div class="paroisse-dashboard">
+                        @if(paroisse.paiement_a_jour){
+                            <div class="paroisse-dashboard-item em-block em-block--success">
+                                <p>Paiement à jour</p>
+                                
+                                @if(getRole()?.includes('ROLE_ADMIN')){
+                                    <div class="paroisse-btn">
+                                        <p class="em-btn" (click)="openBillingPortal().subscribe()">Accéder au portail de facturation</p>
+                                    </div>
+                                }
+                            </div>
+                        } @else {
+                            <div class="paroisse-dashboard-item em-block em-block--danger">
+                                <p>Paiement à régulariser</p>
+                                
+                                @if(getRole()?.includes('ROLE_ADMIN')){
+                                    <div class="paroisse-btn">
+                                        <p class="em-btn danger" (click)="openRetryPaymentModal()">Régulariser le paiement</p>
+                                    </div>
+                                }
+                            </div>
                         }
-                    </div>
-                    
-                    <div class="paroisse-btn">
-                        <div class="em-btn danger" (click)="openLeaveParoisseModal()">
-                            Quitter la paroisse
+
+                        <div class="paroisse-dashboard-item paroisse-dashboard-item--qr-code em-btn" (click)="downloadParoisseQRCode()">
+                            <img src="data:image/png;base64,{{paroisse.qr_code}}" alt="QR Code de la paroisse">
+                            <p>Télécharger le QR Code de la paroisse</p>
+                        </div>
+
+                        <div class="paroisse-dashboard-item paroisse-dashboard-item--users em-block">
+                            <h3 class="paroisse-dashboard-item--users-number">{{paroisse.responsables.length}}</h3>
+                            <div class="paroisse-dashboard-item--users-description">
+                                <p>utilisateur{{paroisse.responsables.length > 1 ? 's' : ''}} actif{{paroisse.responsables.length > 1 ? 's' : ''}} sur la paroisse.</p>
+                                
+                                @if(getRole()?.includes('ROLE_ADMIN')){
+                                    <div class="paroisse-btn">
+                                        <p class="em-btn" (click)="openManageUserModal()">Gérer les utilisateurs</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="paroisse-dashboard-item paroisse-dashboard-item--stats em-block">
+                            <div class="form-group">
+                                <select class="em-input" [(ngModel)]="selectedPeriod" (change)="loadFeuilletViews()">
+                                    <option value="week">Cette semaine</option>
+                                    <option value="month">Ce mois</option>
+                                    <option value="year">Cette année</option>
+                                    <option value="max">Max</option>
+                                </select>
+                            </div>
+                            <canvas id="viewsChart" class="paroisse-dashboard-item--stats--canvas"></canvas>
+                        </div>
+                        <div class="paroisse-dashboard-item em-block">
                         </div>
                     </div>
                 }
