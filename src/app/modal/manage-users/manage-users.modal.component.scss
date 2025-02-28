@@ -1,0 +1,30 @@
+.utilisateurs {
+    &-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-item {
+        margin-bottom: .5em;
+        padding: 1em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        
+        .em-btn {
+            padding: .5em;
+            margin-left: .5em;
+
+            img {
+                margin: 0;
+            }
+        }
+    }
+}

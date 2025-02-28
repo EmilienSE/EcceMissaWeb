@@ -9,10 +9,10 @@ import { EmLoaderComponent } from '../../modules/em-loader/em-loader.component';
 import { EditFeuilletModalComponent } from '../../modal/edit-feuillet/edit-feuillet.modal.component';
 import { DeleteFeuilletModalComponent } from '../../modal/delete-feuillet/delete-feuillet.modal.component';
 import { modalOptions } from '../../utils/modalOptions.utils';
-import { ParoisseService } from '../../services/paroisse/paroisse.service';
 import { Paroisse } from '../../models/paroisse';
 import { RouterLink } from '@angular/router';
 import { FeuilletStatsModalComponent } from '../../modal/feuillet-stats/feuillet-stats.modal.component';
+import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-feuillets',
   standalone: true,
@@ -38,10 +38,14 @@ export class FeuilletsComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private feuilletService: FeuilletService,
-    private paroisseService: ParoisseService){ }
+    private authService: AuthService){ }
 
   ngOnInit(): void {
     this.loadFeuillets();
+  }
+
+  getRole(): string[] | null {
+    return this.authService.getRoles();
   }
 
   loadFeuillets(page: number = 1) {
