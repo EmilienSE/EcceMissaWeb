@@ -5,6 +5,7 @@ import { JoinParoisseData, Paroisse, ParoisseData } from '../../models/paroisse'
 import { environment } from '../../../environment/environment';
 import { BillingPortal, PaymentData, PaymentIntent } from '../../models/payment';
 import { Utilisateur } from '../../models/utilisateur';
+import { Feuillet } from '../../models/feuillet';
 
 @Injectable({
   providedIn: 'root'
@@ -177,5 +178,14 @@ export class ParoisseService {
    */
   supprimerResponsable(paroisseId: number, userId: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${paroisseId}/utilisateur/${userId}/supprimer`);
+  }
+
+  /**
+   * Récupération du dernier et du prochain feuillet pour une paroisse donnée
+   * @param paroisseId Identifiant de la paroisse
+   * @returns Dernier et prochain feuillet
+   */
+  getLatestAndNextFeuillets(paroisseId: number): Observable<{ latest_feuillet: Feuillet, next_feuillet: Feuillet }> {
+    return this.http.get<{ latest_feuillet: Feuillet, next_feuillet: Feuillet }>(`${this.apiUrl}/${paroisseId}/feuillets/latest_and_next`);
   }
 }

@@ -97,7 +97,33 @@
                             </div>
                             <canvas id="viewsChart" class="paroisse-dashboard-item--stats--canvas"></canvas>
                         </div>
-                        <div class="paroisse-dashboard-item em-block">
+                        <div class="paroisse-dashboard-item paroisse-dashboard-item--most-viewed em-block">
+                            <div class="feuillets">
+                                @if(latestFeuillet){
+                                    <div class="feuillet latest-feuillet">
+                                        <h4>Dernier feuillet</h4>
+                                        <div class="feuillet-description">
+                                            <p class="em-title">{{ moment(latestFeuillet.celebrationDate).format('DD/MM HH:mm') }}</p>
+                                            <div class="actions">
+                                                <p>{{ latestFeuillet.viewCount }} vues</p>
+                                                <button *ngIf="latestFeuillet?.fileUrl" (click)="openFeuillet(latestFeuillet.id)" target="_blank" class="em-btn">Voir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <hr>
+                                @if(nextFeuillet){
+                                    <div class="feuillet next-feuillet">
+                                        <h4>Prochain feuillet</h4>
+                                        <div class="feuillet-description">
+                                            <p class="em-title">{{ moment(nextFeuillet.celebrationDate).format('DD/MM HH:mm') }}</p>
+                                            <div class="actions">
+                                                <button *ngIf="nextFeuillet?.fileUrl" (click)="openFeuillet(nextFeuillet.id)" target="_blank" class="em-btn">Voir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 }

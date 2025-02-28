@@ -13,7 +13,7 @@ import { EditParoisseModalComponent } from '../../modal/edit-paroisse/edit-paroi
 import { modalOptions } from '../../utils/modalOptions.utils';
 import { RetryPaymentModalComponent } from '../../modal/retry-payment/retry-payment.modal.component';
 import { Chart } from 'chart.js';
-import { FeuilletView } from '../../models/feuillet';
+import { Feuillet, FeuilletView } from '../../models/feuillet';
 import moment from 'moment';
 import { FormsModule } from '@angular/forms';
 import { DownloadQrCodeModalComponent } from '../../modal/download-qrcode/download-qrcode.modal.component';
@@ -21,12 +21,14 @@ import { AddFeuilletModalComponent } from '../../modal/add-feuillet/add-feuillet
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { ManageUsersModalComponent } from '../../modal/manage-users/manage-users.modal.component';
+import { CommonModule } from '@angular/common';
+import { FeuilletService } from '../../services/feuillet/feuillet.service';
 
 
 @Component({
   selector: 'app-paroisse',
   standalone: true,
-  imports: [EmLoaderComponent, FormsModule],
+  imports: [EmLoaderComponent, FormsModule, CommonModule],
   templateUrl: './paroisse.component.html',
   styleUrl: './paroisse.component.scss'
 })
@@ -39,12 +41,16 @@ export class ParoisseComponent implements OnInit {
   feuilletViews: FeuilletView[];
   chart: Chart;
   selectedPeriod: 'week' | 'month' | 'year' | 'max' = 'month';
+  latestFeuillet: Feuillet;
+  nextFeuillet: Feuillet;
+  moment = moment;
 
   constructor(
     private modalService: ModalService, 
     private paroisseService: ParoisseService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private feuilletService: FeuilletService
   ){}
 
   ngOnInit(): void {
@@ -54,13 +60,13 @@ export class ParoisseComponent implements OnInit {
         this.paroisse = paroisse;
         this.isLoading = false;
         this.loadFeuilletViews();
+        this.loadLatestAndNextFeuillets();
       },
       error: (error) => {
         this.isLoading = false;
         this.error = error.status === 404 ? 'paroisse' : error.message || 'Une erreur est survenue';
       }
     });
-    console.log(this.getRole());
   }
 
   getRole(): string[] | null {
@@ -73,6 +79,18 @@ export class ParoisseComponent implements OnInit {
     this.paroisseService.getFeuilletViews(this.paroisse.id, startDate, endDate).subscribe((feuilletViews: FeuilletView[]) => {
       this.feuilletViews = feuilletViews;
       this.createChart();
+    });
+  }
+  
+  loadLatestAndNextFeuillets(): void {
+    this.paroisseService.getLatestAndNextFeuillets(this.paroisse.id).subscribe({
+      next: ({ latest_feuillet, next_feuillet }) => {
+        this.latestFeuillet = latest_feuillet;
+        this.nextFeuillet = next_feuillet;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des feuillets:', error);
+      }
     });
   }
 
@@ -382,5 +400,9 @@ export class ParoisseComponent implements OnInit {
         }
       });
     });
+  }
+
+  openFeuillet(feuilletId: number): void {
+    window.open(this.feuilletService.showFeuilletPdf(feuilletId), '_blank')
   }
 }
