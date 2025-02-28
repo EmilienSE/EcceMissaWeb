@@ -2,7 +2,7 @@
     <div class="feuillets-container">
         <div class="feuillets-title">
             <h2>Mes derniers feuillets</h2>
-            @if(!isLoading && !error) {
+            @if(!isLoading && !error && getRole()?.includes('ROLE_EDITOR')) {
                 <div class="add-button em-btn" (click)="openAddModal()">
                     <img src="assets/img/plus.svg" alt="Ajouter un feuillet">
                 </div>
@@ -22,8 +22,10 @@
                             <div class="feuillet-indicators">
                                 <img src="assets/img/oeil.svg" alt="Voir le nombre de vues du feuillet" (click)="openStatsModal(feuillet.id, feuillet.celebrationDate, $event)">
                                 <div class="indicator-views">{{feuillet.viewCount}}</div>
-                                <img src="assets/img/edit.svg" alt="Modifier le feuillet" (click)="editFeuillet(feuillet.id, $event)">
-                                <img src="assets/img/trash.svg" alt="Supprimer le feuillet" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
+                                @if(getRole()?.includes('ROLE_EDITOR')){
+                                    <img src="assets/img/edit.svg" alt="Modifier le feuillet" (click)="editFeuillet(feuillet.id, $event)">
+                                    <img src="assets/img/trash.svg" alt="Supprimer le feuillet" class="danger" (click)="deleteFeuillet(feuillet.id, $event)">
+                                }
                             </div>
                         </div>
                     }

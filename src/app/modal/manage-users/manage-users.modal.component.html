@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h2>Les utilisateurs de la paroisse</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+@if (isLoading) {
+    <app-em-loader></app-em-loader>
+} @else {
+    <div class="utilisateurs-list">
+        @for(utilisateur of utilisateurs; track utilisateur.id) {
+            <div class="utilisateurs-item em-btn">
+                <span class="utilisateur-name">{{utilisateur.nom}} {{utilisateur.prenom}}</span>
+                <div class="utilisateurs-actions">
+                    <select class="em-input" name="utilisateur_{{utilisateur.id}}_role" id="utilisateur_{{utilisateur.id}}_role" (change)="onRoleChange(utilisateur, $event)">
+                        <option value="ROLE_USER" [selected]="utilisateur.roles.includes('ROLE_USER')">Lecture seule</option>
+                        <option value="ROLE_USER,ROLE_EDITOR" [selected]="utilisateur.roles.includes('ROLE_EDITOR')">Éditeur</option>
+                        <option value="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN" [selected]="utilisateur.roles.includes('ROLE_ADMIN')">Administrateur</option>
+                    </select>
+                    <button class="em-btn danger" (click)="deleteUtilisateur(utilisateur.id)"><img src="assets/img/trash.svg" alt="Supprimer l'utilisateur"></button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="modal-footer">
+        <button class="em-btn" (click)="modalService.close()"><span>Fermer</span></button>
+    </div>
+}
+

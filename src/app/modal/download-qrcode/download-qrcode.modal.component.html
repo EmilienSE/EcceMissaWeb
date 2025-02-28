@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h2>Télécharger le QR Code de la paroisse</h2>
+    <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
+</div>
+    
+<div class="format-list">
+    <div class="format-item em-btn" (click)="downloadQRCode('A5')">
+        <img src="assets/img/file.svg" alt="Télécharger au format A5">
+        <span>Télécharger au format A5</span>
+    </div>
+    <div class="format-item em-btn" (click)="downloadQRCode('A4')">
+        <img src="assets/img/file.svg" alt="Télécharger au format A4">
+        <span>Télécharger au format A4</span>
+    </div>
+    <div class="format-item em-btn" (click)="downloadQRCode('A3')">
+        <img src="assets/img/file.svg" alt="Télécharger au format A3">
+        <span>Télécharger au format A3</span>
+    </div>
+    <div class="format-item em-btn" (click)="downloadQRCode('bookmark')">
+        <img src="assets/img/bookmark.svg" alt="Télécharger au format marque-page">
+        <span>Télécharger au format marque-page</span>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="em-btn" (click)="modalService.close()"><span>Fermer</span></button>
+</div>

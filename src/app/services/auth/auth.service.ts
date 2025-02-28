@@ -6,6 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environment/environment';
 import { ConnexionData, InscriptionData } from '../../models/utilisateur';
 import { NotifyService } from '../../notify.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,15 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+  getRoles(): string[] | null {
+    const token = localStorage.getItem('access_token');
+    if (token !== null) {
+      const decodedToken = jwtDecode(token);
+      return (decodedToken as any).roles || null;
+    }
+    return null;
   }
 
   refreshToken(): Observable<any> {

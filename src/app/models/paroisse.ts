@@ -10,10 +10,11 @@ export interface Paroisse {
     eglises: Eglise[];
     diocese?: Diocese;
     diocese_id?: string;
-    responsables: string[];
+    responsables: number;
     feuillets: Feuillet[];
     paiement_a_jour: boolean;
     code_unique: string;
+    qr_code?: string;
 }
 
 export interface ParoisseData {

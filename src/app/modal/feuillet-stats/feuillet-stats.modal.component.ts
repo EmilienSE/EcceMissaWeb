@@ -68,7 +68,7 @@ export class FeuilletStatsModalComponent implements OnInit, AfterViewInit {
             type: 'time',
             time: {
               unit: 'minute',
-              tooltipFormat: 'HH:mm',
+              tooltipFormat: 'DD/MM/YYYY HH:mm',
               displayFormats: {
                 minute: 'HH:mm'
               }
