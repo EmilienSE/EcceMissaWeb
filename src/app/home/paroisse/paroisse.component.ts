@@ -119,6 +119,7 @@ export class ParoisseComponent implements OnInit {
   createChart(): void {
     const ctx = document.getElementById('viewsChart') as HTMLCanvasElement;
     const viewsByDay = this.getViewsByDay();
+    const trendData = this.calculateTrend(viewsByDay.map(v => v.count));
   
     this.chart?.destroy();
   
@@ -134,6 +135,15 @@ export class ParoisseComponent implements OnInit {
           borderWidth: 3,
           tension: 0.2,
           fill: false
+        }, {
+          label: 'Tendance',
+          data: trendData,
+          borderColor: '#ff6384',
+          borderJoinStyle: 'round',
+          borderWidth: 2,
+          tension: 0.1,
+          fill: false,
+          borderDash: [10, 5]
         }]
       },
       options: {
@@ -160,7 +170,7 @@ export class ParoisseComponent implements OnInit {
   }  
 
   getViewsByDay(): { day: string, count: number }[] {
-      const viewsByDay = this.feuilletViews.reduce((acc: { [key: string]: number }, view) => {
+    const viewsByDay = this.feuilletViews.reduce((acc: { [key: string]: number }, view) => {
       const day = moment(view.viewed_at).format('YYYY-MM-DD');
       if (!acc[day]) {
         acc[day] = 0;
@@ -173,6 +183,19 @@ export class ParoisseComponent implements OnInit {
       day,
       count: viewsByDay[day]
     }));
+  }
+
+  calculateTrend(data: number[]): number[] {
+    const n = data.length;
+    const sumX = data.reduce((sum, _, i) => sum + i, 0);
+    const sumY = data.reduce((sum, y) => sum + y, 0);
+    const sumXY = data.reduce((sum, y, i) => sum + i * y, 0);
+    const sumX2 = data.reduce((sum, _, i) => sum + i * i, 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    return data.map((_, i) => slope * i + intercept);
   }
 
 
