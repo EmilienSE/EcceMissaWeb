@@ -5,6 +5,9 @@
     <div class="close-btn" (click)="close()"><img src="assets/img/close.svg" alt=""></div>
 </div>
 <div class="modal-body">
+    @if(feuilletViews){
+        <p>Le feuillet a été vu  {{ feuilletViews.length }} fois.</p>
+    }
     <canvas id="viewsChart"></canvas>
 </div>
 <div class="modal-footer">
