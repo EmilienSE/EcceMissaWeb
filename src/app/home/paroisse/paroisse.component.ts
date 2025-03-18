@@ -195,7 +195,7 @@ export class ParoisseComponent implements OnInit {
     const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
     const intercept = (sumY - slope * sumX) / n;
 
-    return data.map((_, i) => slope * i + intercept);
+    return data.map((_, i) => Math.max(0, slope * i + intercept));
   }
 
 
